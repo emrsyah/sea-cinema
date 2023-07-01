@@ -9,14 +9,14 @@ export interface MovieItem {
 }
 
 export type MovieSearchBar = {
-  query: string
-}
+  query: string;
+};
 
 export type MovieFilterAndSort = {
   id: number;
   name: string;
   value: string;
-}
+};
 
 export type FormLoginType = {
   username: string;
@@ -26,5 +26,10 @@ export type FormLoginType = {
 export type FormSignUpType = {
   username: string;
   password: string;
-  passwordConfirmation: string
+  passwordConfirmation: string;
+};
+
+export type SeatType = {
+  id: number;
+  status: "available" | "taken" | "selected";
 };
