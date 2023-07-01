@@ -17,3 +17,14 @@ export type MovieFilterAndSort = {
   name: string;
   value: string;
 }
+
+export type FormLoginType = {
+  username: string;
+  password: string;
+};
+
+export type FormSignUpType = {
+  username: string;
+  password: string;
+  passwordConfirmation: string
+};

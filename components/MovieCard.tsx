@@ -1,4 +1,4 @@
-import rupiahConverter from "@/lib/rupiahConverter";
+import rupiahConverter from "@/helpers/rupiahConverter";
 import { MovieItem } from "@/types";
 import dayjs from "dayjs";
 import Image from "next/image";
@@ -9,7 +9,7 @@ const MovieCard = ({movie}: {movie: MovieItem}) => {
   const {id, title, description, release_date, poster_url, age_rating, ticket_price} = movie || {}
   return (
     <Link
-      href={`/m/${id.toString()}`}
+      href={`/m/${title}`}
       className="rounded-lg z-0 hover:border-2 hover:border-indigo-600 shadow-lg hover:scale-[102%] transition-all duration-200 ease-out cursor-pointer"
     >
       <div className="w-full relative movie-card">
@@ -27,10 +27,10 @@ const MovieCard = ({movie}: {movie: MovieItem}) => {
         >
           <h3>{title}</h3>
           <div className="flex items-center gap-2">
-            <div className="text-white bg-indigo-500 rounded-full px-3 py-1 text-xs">
+            <div className="chip-primary">
               {age_rating}+
             </div>
-            <div className="text-white bg-indigo-500 rounded-full px-3 py-1 text-xs">
+            <div className="chip-primary">
               {dayjs(release_date).format("MMM YYYY")}
             </div>
           </div>

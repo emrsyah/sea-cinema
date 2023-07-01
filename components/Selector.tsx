@@ -14,10 +14,8 @@ const people = [
 
 
 const Selector = ({option, selectedOption, setSelected} : {option: MovieFilterAndSort[], selectedOption: MovieFilterAndSort, setSelected: (data: MovieFilterAndSort) => void}) => {
-  // const [selectedPerson, setSelectedPerson] = useState(people[0]);
-
   return (
-    <div className="w-40 z-10">
+    <div className="w-full md:w-40 z-10">
       <Listbox value={selectedOption} onChange={setSelected}>
         <div className="relative">
           <Listbox.Button className="relative cursor-pointer w-full rounded-md border-[1.5px] border-gray-600 text-sm  py-[10px] pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
