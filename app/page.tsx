@@ -1,19 +1,13 @@
-import MovieCard from "@/components/MovieCard";
 import MovieGrid from "@/components/MovieGrid";
-import Selector from "@/components/Selector";
+import Navbar from "@/components/Navbar";
 import { MovieItem } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import { Search } from "react-feather";
 
 async function getMovies(): Promise<MovieItem[]> {
   const res = await fetch("https://seleksi-sea-2023.vercel.app/api/movies", { next: { revalidate: 3600 } });
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
 
-  // Recommendation: handle errors
   if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
     throw new Error("Failed to fetch data");
   }
   return res.json();
@@ -23,19 +17,11 @@ export default async function Home() {
   const movies = await getMovies();
   return (
     <main>
-      <nav className="p-6 flex items-center justify-between">
-        <h3 className="font-bold text-lg raleway text-indigo-500">
-          sea<span className="text-white raleway">cinema</span>
-        </h3>
-        <div className="flex items-center gap-6 raleway text-sm">
-          <button className="btn-secondary">Masuk</button>
-          <button className="btn-primary">Daftar Sekarang</button>
-        </div>
-      </nav>
+      <Navbar />
       <div className="max-w-7xl m-6 gap-4 grid grid-cols-6 items-center ">
-        <div className="col-span-4 flex flex-col gap-2">
+        <div className=" col-span-6 md:col-span-4 flex flex-col gap-2">
           {/* <h1 className='text-4xl font-bold raleway'>Movies at Your Fingertips.</h1> */}
-          <h1 className="text-6xl font-bold raleway uppercase tracking-widest ">
+          <h1 className="text-4xl md:text-6xl font-bold raleway uppercase tracking-widest ">
             Your Movie <span className="text-indigo-500">Magic</span> Experience
             Begins with <span className="text-indigo-500">Easy</span> Booking.
           </h1>
@@ -46,7 +32,7 @@ export default async function Home() {
             Explore Your Next Movie
           </button>
         </div>
-        <div className="col-span-2 items-center justify-center flex">
+        <div className="hidden md:flex col-span-2 items-center justify-center">
           <Link
             href={"/"}
             className="rounded-lg shadow-lg  hover:scale-[102%] transition-all duration-200 ease-out cursor-pointer"
@@ -79,7 +65,7 @@ export default async function Home() {
           </Link>
         </div>
       </div>
-      <div className="max-w-7xl flex flex-col mx-6 mt-20 mb-6">
+      <div className="max-w-7xl mx-6 flex flex-col mt-20 mb-6">
       <MovieGrid movies={movies} />
       </div>
     </main>

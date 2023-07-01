@@ -1,15 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
-*{
+* {
   font-family: "Inter", "Raleway";
 }
 
-.raleway{
+.raleway {
   font-family: "Raleway";
 }
 
@@ -58,10 +57,16 @@ body {
 }
 
 @layer components {
-  .btn-primary{
-    @apply font-semibold bg-indigo-500 py-2 px-4 rounded-md hover:bg-indigo-600;
+  .btn-primary {
+    @apply font-semibold raleway bg-indigo-500 py-2 px-4 rounded-md hover:bg-indigo-600;
   }
-  .btn-secondary{
-    @apply text-gray-400 font-semibold hover:text-white py-2 px-4 rounded-md border-[1.2px] border-gray-800 hover:border-gray-400
+  .btn-secondary {
+    @apply text-gray-400 font-semibold raleway hover:text-white py-2 px-4 rounded-md border-[1.2px] border-gray-800 hover:border-gray-400;
+  }
+  .chip-primary {
+    @apply text-white bg-indigo-500 rounded-full px-3 py-1 text-xs;
+  }
+  .input-txt{
+    @apply bg-transparent outline-none w-full p-2 border-[1.5px] border-gray-700 rounded ;
   }
 }
