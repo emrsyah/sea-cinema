@@ -41,7 +41,7 @@ const TicketBooker = () => {
         </RadioGroup.Option>
       ))}
     </RadioGroup>
-    <button onClick={() => router.push(`${pathname}/book`)} className="btn-primary w-full mt-2">Buy Ticket</button>
+    <button onClick={() => router.push(`${pathname}/book?date=${selectedDay.longDate}`)} className="btn-primary w-full mt-2">Buy Ticket</button>
     </>
   );
 };

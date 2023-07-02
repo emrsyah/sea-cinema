@@ -9,6 +9,7 @@ export function getThreeDays() {
     const dayObject = {
       day: date.format('dddd'),
       date: date.format('DD MMM'),
+      longDate: date,
     };
     dayArray.push(dayObject);
   }

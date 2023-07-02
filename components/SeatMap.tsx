@@ -264,8 +264,7 @@ const seatData: SeatType[] = [
   },
 ];
 
-const SeatMap = () => {
-  const [selected, setSelected] = useState<number[]>([]);
+const SeatMap = ({selected, setSelected} : {selected: number[], setSelected: React.Dispatch<React.SetStateAction<number[]>>}) => {
 
   const seatClickHandler = (id: number) => {
     if (seatData[id - 1].status === "taken") return;
