@@ -27,6 +27,7 @@ export type FormSignUpType = {
   username: string;
   password: string;
   passwordConfirmation: string;
+  age: number;
 };
 
 export type SeatType = {

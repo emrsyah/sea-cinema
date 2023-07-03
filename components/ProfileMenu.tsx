@@ -3,7 +3,7 @@ import { useAuth } from "@clerk/nextjs";
 import { Menu } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { DollarSign, LogOut, Pocket } from "react-feather";
+import { LogOut, Pocket, Settings } from "react-feather";
 
 const ProfileMenu = ({username} : {username: string}) => {
     const {isLoaded, signOut} = useAuth()
@@ -29,6 +29,7 @@ const ProfileMenu = ({username} : {username: string}) => {
         />
       </Menu.Button>
       <Menu.Items className="flex  items-start flex-col mt-1 text-[15px] z-20 font-normal p-3 w-56 text-sm gap-1 rounded bg-gray-950 absolute right-0">
+
         <Menu.Item>
           {({ active }) => (
             <button
@@ -46,8 +47,8 @@ const ProfileMenu = ({username} : {username: string}) => {
               className={`text-gray-400 font-medium text-sm flex items-center gap-4 w-full p-2 ${active && "text-white"}`}
             //   href="/account-settings"
             >
-              <DollarSign className="w-5" />
-               Balance
+              <Settings className="w-5" />
+               Settings
             </button>
           )}
         </Menu.Item>

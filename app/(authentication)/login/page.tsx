@@ -5,12 +5,12 @@ import { useAuth, useSignIn, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const router = useRouter();
   const { isLoaded, signIn, setActive } = useSignIn();
   const { isSignedIn, user, isLoaded: isLoadedUser } = useUser();
-  const { signOut } = useAuth();
 
   const {
     register,
@@ -20,9 +20,8 @@ const Login = () => {
   } = useForm<FormLoginType>();
 
   const submitHandler: SubmitHandler<FormLoginType> = async (input) => {
-    if (!isLoaded) {
-      return;
-    }
+    if (!isLoaded) return;
+    const toastId = toast.loading("Please wait...");
 
     try {
       const result = await signIn.create({
@@ -31,18 +30,48 @@ const Login = () => {
       });
 
       if (result.status === "complete") {
-        console.log(result);
         await setActive({ session: result.createdSessionId });
-        router.push("/profile");
+        router.push("/");
+        toast.update(toastId, {
+          render: "Welcome Back",
+          type: "success",
+          isLoading: false,
+          autoClose: 1500,
+        });
       } else {
+        toast.update(toastId, {
+          render: "Something Wrong",
+          type: "error",
+          isLoading: false,
+          autoClose: 1500,
+        });
         /*Investigate why the login hasn't completed */
         console.log(result);
       }
     } catch (err: any) {
       console.error("error", err.errors[0].longMessage);
-      if(err.errors[0].longMessage.includes("find your account") || err.errors[0].longMessage.includes("Password is incorrect")){
-        setError("password", {type: "wrongPasswordOrUname"})
+      if (
+        err.errors[0].longMessage.includes("find your account") ||
+        err.errors[0].longMessage.includes("Password is incorrect")
+      ) {
+        setError("password", { type: "wrongPasswordOrUname" });
+        toast.dismiss(toastId);
+        return;
+      } else if (err.errors[0].longMessage.includes("single session mode")) {
+        toast.update(toastId, {
+          render: "You already logged in",
+          type: "error",
+          isLoading: false,
+          autoClose: 1500,
+        });
+        return;
       }
+      toast.update(toastId, {
+        render: "Something Wrong",
+        type: "error",
+        isLoading: false,
+        autoClose: 1500,
+      });
     }
   };
 
@@ -53,7 +82,6 @@ const Login = () => {
 
   return (
     <div className="flex w-full justify-center items-center">
-      {isSignedIn && <button onClick={() => signOut()}>Sign Out</button>}
       <div className="flex w-full flex-col gap-2">
         <div className="w-full flex items-center justify-center">
           <button
@@ -79,7 +107,10 @@ const Login = () => {
               {...register("username", { required: true, minLength: 5 })}
             />
             {errors.username && (
-              <InputErrorIndicator type={errors.username.type} inputLength={5} />
+              <InputErrorIndicator
+                type={errors.username.type}
+                inputLength={5}
+              />
             )}
           </div>
           <div className="w-full flex gap-1 flex-col">

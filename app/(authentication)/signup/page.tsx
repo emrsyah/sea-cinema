@@ -5,10 +5,11 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useSignUp } from "@clerk/nextjs";
 import InputErrorIndicator from "@/components/InputErrorIndicator";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const router = useRouter();
-  const { isLoaded, signUp } = useSignUp();
+  const { isLoaded, signUp, setActive } = useSignUp();
 
   const {
     register,
@@ -18,24 +19,43 @@ const SignUp = () => {
   } = useForm<FormSignUpType>();
 
   const submitHandler: SubmitHandler<FormSignUpType> = async (input) => {
+    if (!isLoaded) return;
+
     if (input.password !== input.passwordConfirmation) {
       setError("passwordConfirmation", { type: "notMatched" });
       return;
     }
+    if(input.username.split(" ").length > 1){
+      setError("username", {type: "whitespace"})
+    }
+    const toastId = toast.loading("Please wait...")
     try {
       const res = await signUp?.create({
         username: input.username,
-        password: input.password,
+        password: input.password.trim(),
+        unsafeMetadata: {
+          age: input.age
+        }
       });
       console.log(res);
       if (res?.status === "complete") {
-        router.push("/profile");
+        await setActive({ session: res.createdSessionId });
+        router.push("/");
+        router.refresh()
+        toast.update(toastId, { render: "Sign Up Success", type: "success", isLoading: false, autoClose: 1500 });
       }
     } catch (err: any) {
       console.error("error", err.errors[0].longMessage);
       if (err.errors[0].longMessage.includes("username is taken")) {
         setError("username", { type: "unameTaken" });
+        toast.dismiss(toastId)
+        return
       }
+      else if (err.errors[0].longMessage.includes("single session mode")) {
+        toast.update(toastId, { render: "You already logged in", type: "error", isLoading: false, autoClose: 1500 });
+        return
+      }
+      toast.update(toastId, { render: "Something Wrong", type: "error", isLoading: false, autoClose: 1500 });
     }
     // console.log(data)
   };
@@ -62,20 +82,35 @@ const SignUp = () => {
           <h3 className="text-3xl mb-2 text-indigo-400 text-center raleway font-bold">
             Create an Account
           </h3>
-          <div className="w-full flex gap-1 flex-col">
-            <h5 className="text-sm font-semibold raleway">Username</h5>
-            <input
-              type="text"
-              className="input-txt w-full text-sm"
-              placeholder="Your username"
-              {...register("username", { required: true, minLength: 5 })}
-            />
-            {errors.username && (
-              <InputErrorIndicator
-                type={errors.username.type}
-                inputLength={5}
+          <div className="flex flex-col md:flex-row w-full items-center gap-2">
+            <div className="w-full flex gap-1 flex-col">
+              <h5 className="text-sm font-semibold raleway">Username</h5>
+              <input
+                type="text"
+                className="input-txt w-full text-sm"
+                placeholder="Your username"
+                {...register("username", { required: true, minLength: 5, validate: (value) => { return !!value.trim()} })}
               />
-            )}
+              {errors.username && (
+                <>
+                <InputErrorIndicator
+                  type={errors.username.type}
+                  inputLength={5}
+                />
+                </>
+              )}
+            </div>
+            <div className="flex md:w-fit w-full gap-1 flex-col">
+              <h5 className="text-sm font-semibold raleway">Age</h5>
+              <input
+                type="number"
+                className="input-txt w-full text-sm"
+                placeholder="Your Age"
+                min={1}
+                {...register("age", { required: true, min: 1, valueAsNumber: true})}
+              />
+              {errors.age && <InputErrorIndicator type={errors.age.type} />}
+            </div>
           </div>
           <div className="w-full flex gap-1 flex-col">
             <h5 className="text-sm font-semibold raleway">Password</h5>

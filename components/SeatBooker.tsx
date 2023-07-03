@@ -18,7 +18,7 @@ const SeatBooker = ({ movie }: { movie: MovieItem }) => {
       <div className="bg-gray-950 p-4">
         <div className="max-w-xl mx-auto flex justify-between items-center">
           <div className="flex flex-col gap-2 font-medium">
-            <h5 className="text-sm">Selected: {selected.length === 0 ? "-" : selected.join(", ")}</h5>
+            <h5 className="text-sm">Seat: {selected.length === 0 ? "-" : selected.join(", ")}</h5>
             <h5 className="text-lg">
               Total: {rupiahConverter(selected.length * movie.ticket_price)}
             </h5>
