@@ -5,7 +5,7 @@ import React from "react";
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import rupiahConverter from "@/helpers/rupiahConverter";
-import ProfileMenu from "./ProfileMenu";
+import ProfileMenu from "../ProfileMenu";
 
 const Navbar = () => {
   const router = useRouter();

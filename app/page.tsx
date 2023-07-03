@@ -1,5 +1,5 @@
 import MovieGrid from "@/components/MovieGrid";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/layouts/Navbar";
 import { MovieItem } from "@/types";
 import Image from "next/image";
 import Link from "next/link";

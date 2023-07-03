@@ -1,5 +1,5 @@
 FITUR TAMBAHAN:
-1. Review Film Dinamis serta Rating
+1. Review Film Dinamis serta Rating.
 
 IMPROVEMENT TEKNIS:
 1. Pake generateStatisParams buat generate parameter dinamik yang statis:

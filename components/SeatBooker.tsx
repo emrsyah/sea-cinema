@@ -1,13 +1,37 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 import SeatMap from "./SeatMap";
 import { MovieItem } from "@/types";
 import rupiahConverter from "@/helpers/rupiahConverter";
 import { useUser } from "@clerk/nextjs";
+import { toast } from "react-toastify";
+import { addTicket } from "@/app/_actions/ticket";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const SeatBooker = ({ movie }: { movie: MovieItem }) => {
+  const searchParams = useSearchParams()
+  const date = searchParams.get('date')
+  const router = useRouter()
+  const pathname = usePathname();
   const [selected, setSelected] = useState<number[]>([]);
-  // const {user} = useUser()
+  const { user, isLoaded } = useUser();
+  const [isPending, startTransition] = useTransition();
+
+  const bookClickHandler = () => {
+    if (!isLoaded) return;
+    if (selected.length === 0) {
+      toast.info(`Please select seat first`, { autoClose: 3000 });
+      return;
+    }
+    if ((user?.unsafeMetadata.age as number) < movie.age_rating) {
+      toast.error(`Sorry, you're not old enough for the movie`, {
+        autoClose: 3000,
+      });
+      return;
+    }
+    startTransition(() => addTicket({seat: selected, date: date as string}))
+    router.push(`${pathname}/payment`);
+  };
 
   return (
     <>
@@ -20,12 +44,16 @@ const SeatBooker = ({ movie }: { movie: MovieItem }) => {
       <div className="bg-gray-950 p-4 sticky bottom-0 opacity-90">
         <div className="max-w-xl mx-auto flex justify-between items-center">
           <div className="flex flex-col gap-2 font-medium">
-            <h5 className="text-sm">Seat: {selected.length === 0 ? "-" : selected.join(", ")}</h5>
+            <h5 className="text-sm">
+              Seat: {selected.length === 0 ? "-" : selected.join(", ")}
+            </h5>
             <h5 className="text-lg">
               Total: {rupiahConverter(selected.length * movie.ticket_price)}
             </h5>
           </div>
-          <button className="btn-primary text-sm">Continue</button>
+          <button onClick={bookClickHandler} className="btn-primary text-sm">
+            Continue
+          </button>
         </div>
       </div>
     </>

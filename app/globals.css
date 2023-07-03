@@ -67,6 +67,6 @@ body {
     @apply text-white bg-indigo-500 rounded-full px-3 py-1 text-xs;
   }
   .input-txt{
-    @apply bg-transparent outline-none w-full p-2 border-[1.5px] border-gray-700 rounded ;
+    @apply bg-transparent outline-none w-full p-2 border-[0.8px] border-gray-700 rounded ;
   }
 }

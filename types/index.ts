@@ -34,3 +34,8 @@ export type SeatType = {
   id: number;
   status: "available" | "taken" | "selected";
 };
+
+export type TicketCheckoutType = {
+  seat: number[];
+  date: string;
+};

@@ -1,11 +1,11 @@
 import MovieDetailInfo from "@/components/MovieDetailInfo";
-import Navbar from "@/components/Navbar";
 import rupiahConverter from "@/helpers/rupiahConverter";
 import { MovieItem } from "@/types";
 import dayjs from "dayjs";
 import Image from "next/image";
 import React from "react";
 import TicketBooker from "@/components/TicketBooker";
+import Navbar from "@/components/layouts/Navbar";
 
 async function getMovie(name: string): Promise<MovieItem> {
   const res = await fetch("https://seleksi-sea-2023.vercel.app/api/movies", {

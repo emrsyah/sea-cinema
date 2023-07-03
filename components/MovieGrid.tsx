@@ -28,7 +28,7 @@ const MovieGrid = ({ movies }: { movies: MovieItem[] }) => {
   return (
     <>
       <div className="flex flex-col md:flex-row items-center gap-2">
-        <div className="p-2 w-full flex-1 border-[1.5px] border-gray-600 rounded flex gap-2">
+        <div className="p-2 w-full flex-1 border-[1px] border-gray-800 rounded flex gap-2">
           <Search className="w-5" />
           <input
             value={searchQuery}
