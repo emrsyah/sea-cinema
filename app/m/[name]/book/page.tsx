@@ -1,11 +1,7 @@
 import BookingNavbar from "@/components/BookingNavbar";
 import SeatBooker from "@/components/SeatBooker";
-import SeatMap from "@/components/SeatMap";
-import rupiahConverter from "@/helpers/rupiahConverter";
 import { MovieItem } from "@/types";
-import dayjs from "dayjs";
 import React from "react";
-import { ArrowLeft } from "react-feather";
 
 async function getMovie(name: string): Promise<MovieItem> {
   const res = await fetch("https://seleksi-sea-2023.vercel.app/api/movies", {
@@ -21,9 +17,9 @@ async function getMovie(name: string): Promise<MovieItem> {
   );
 }
 
+
 const BookingPage = async ({ params }: { params: { name: string } }) => {
   const movie = await getMovie(params.name);
-
   return (
     <div>
       <BookingNavbar movie={movie} />

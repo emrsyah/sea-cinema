@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import SeatMap from "./SeatMap";
 import { MovieItem } from "@/types";
 import rupiahConverter from "@/helpers/rupiahConverter";
+import { useUser } from "@clerk/nextjs";
 
 const SeatBooker = ({ movie }: { movie: MovieItem }) => {
   const [selected, setSelected] = useState<number[]>([]);
+  // const {user} = useUser()
 
   return (
     <>
@@ -15,7 +17,7 @@ const SeatBooker = ({ movie }: { movie: MovieItem }) => {
         </div>
         <SeatMap selected={selected} setSelected={setSelected} />
       </div>
-      <div className="bg-gray-950 p-4">
+      <div className="bg-gray-950 p-4 sticky bottom-0 opacity-90">
         <div className="max-w-xl mx-auto flex justify-between items-center">
           <div className="flex flex-col gap-2 font-medium">
             <h5 className="text-sm">Seat: {selected.length === 0 ? "-" : selected.join(", ")}</h5>
