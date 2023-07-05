@@ -1,13 +1,13 @@
 import { getTicket } from "@/app/_actions/ticket";
 import MovieCheckoutInfo from "@/components/MovieCheckoutInfo";
 import rupiahConverter from "@/helpers/rupiahConverter";
-import { MovieItem, TicketCheckoutType } from "@/types";
+import { MovieItem, RequiredTicketParamsType, TicketCheckoutType } from "@/types";
 import dayjs from "dayjs";
 import Image from "next/image";
 import React from "react";
-import { ArrowLeft } from "react-feather";
 import { currentUser } from '@clerk/nextjs';
 import PlainNavbar from "@/components/layouts/PlainNavbar";
+import BalancePayment from "@/components/BalancePayment";
 
 async function getMovie(name: string): Promise<MovieItem> {
   const res = await fetch("https://seleksi-sea-2023.vercel.app/api/movies", {
@@ -23,10 +23,20 @@ async function getMovie(name: string): Promise<MovieItem> {
 }
 
 const PaymentPage = async ({ params }: { params: { name: string } }) => {
+
   const ticket = await getTicket();
   const movie = await getMovie(params.name);
   const user = await currentUser()
   const ticketParsed: TicketCheckoutType = JSON.parse(ticket as string);
+  
+  const tickerParams: RequiredTicketParamsType = {
+    movieName: movie.title,
+    amount: ticketParsed.seat.length,
+    playDate: new Date(ticketParsed.date),
+    price: movie.ticket_price,
+    seat: ticketParsed.seat,
+    userId: user? user.id : ""
+  }
 
   return (
     <div>
@@ -75,11 +85,7 @@ const PaymentPage = async ({ params }: { params: { name: string } }) => {
                 ticketParsed.seat.length * movie.ticket_price
               )}
             />
-            <div className="p-2 rounded mt-1 text-sm font-medium bg-gray-900">
-              <span className="text-xl">💡</span>{" "}
-              Your Balance: Rp 250.000
-            </div>
-            <button className="btn-primary mt-3 w-full">Confirm Payment</button>
+            <BalancePayment userId={user ? user.id : ""} ticket={tickerParams} />
           </div>
         </div>
       </div>

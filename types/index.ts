@@ -39,3 +39,18 @@ export type TicketCheckoutType = {
   seat: number[];
   date: string;
 };
+
+export type TicketType = {
+  id: number;
+  movieName: string;
+  userId: string;
+  amount: number;
+  price: number;
+  seat: number[];
+  playDate: Date;
+  status: "success" | "failed" | "refund";
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export type RequiredTicketParamsType = Pick<TicketType, "movieName" | "userId" | "amount" | "price" | "seat" | "playDate">

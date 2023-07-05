@@ -10,7 +10,7 @@ export const getTicket = async () => {
 };
 
 export const addTicket = async (input: TicketCheckoutType) => {
-  const expirationTime = new Date(Date.now() + 60 * 60 * 1000); // One hour in the future
+  const expirationTime = new Date(Date.now() + 60 * 60 * 1000 * 3); // 3 hour in the future
   const cookieStore = cookies();
   cookieStore.set({
     name: "ticketD",
