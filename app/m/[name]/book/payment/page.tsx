@@ -8,6 +8,7 @@ import React from "react";
 import { currentUser } from '@clerk/nextjs';
 import PlainNavbar from "@/components/layouts/PlainNavbar";
 import BalancePayment from "@/components/BalancePayment";
+import { extractMovieTitle } from "@/helpers/extractMovieTitle";
 
 async function getMovie(name: string): Promise<MovieItem> {
   const res = await fetch("https://seleksi-sea-2023.vercel.app/api/movies", {
@@ -17,8 +18,9 @@ async function getMovie(name: string): Promise<MovieItem> {
   if (!res.ok) {
     throw new Error("Failed to fetch data");
   }
+  const movieTitle = extractMovieTitle(name)
   return resJson.find(
-    (movies: MovieItem) => movies.title == decodeURIComponent(name)
+    (movies: MovieItem) => movies.title == movieTitle
   );
 }
 
@@ -28,7 +30,7 @@ const PaymentPage = async ({ params }: { params: { name: string } }) => {
   const movie = await getMovie(params.name);
   const user = await currentUser()
   const ticketParsed: TicketCheckoutType = JSON.parse(ticket as string);
-  
+
   const tickerParams: RequiredTicketParamsType = {
     movieName: movie.title,
     amount: ticketParsed.seat.length,

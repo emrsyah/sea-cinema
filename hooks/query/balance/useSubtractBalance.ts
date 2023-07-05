@@ -1,7 +1,7 @@
 import supabase from "@/lib/supabase/supabase";
 import { useMutation } from "@tanstack/react-query";
 
-async function withdrawBalance(amount: number, userId: string) {
+async function subtractBalance(amount: number, userId: string) {
   const { data: balance } = await supabase
     .from("balance")
     .select("*")
@@ -20,7 +20,7 @@ async function withdrawBalance(amount: number, userId: string) {
   return data;
 }
 
-export const useWithdraw = ({
+export const useSubtractbalance = ({
   onSuccess,
   onError,
 }: {
@@ -29,7 +29,7 @@ export const useWithdraw = ({
 }) => {
   return useMutation({
     mutationFn: ({ amount, userId }: { amount: number; userId: string }) =>
-      withdrawBalance(amount, userId),
+      subtractBalance(amount, userId),
     onSuccess: (data) => {
       onSuccess();
     },

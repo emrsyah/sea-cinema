@@ -1,23 +1,28 @@
 "use client";
 import { useAddBalance } from "@/hooks/query/balance/useAddBalance";
 import { useBalance } from "@/hooks/query/balance/useBalance";
-import { useWithdraw } from "@/hooks/query/balance/useWithdraw";
+import { useSubtractbalance } from "@/hooks/query/balance/useSubtractBalance";
 import { Tab } from "@headlessui/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Fragment, useState } from "react";
 import { toast } from "react-toastify";
 
 export const TopUpWithdrawTabs = ({userId} : {userId: string}) => {
   const {refetch, data: balance} = useBalance({userId: userId})
   const { mutate: mutateTopUp } = useAddBalance({onSuccess : refetch});
-  const { mutate: mutateWithdraw } = useWithdraw({onSuccess : refetch});
+  const { mutate: mutateWithdraw } = useSubtractbalance({onSuccess : refetch});
   const [amountTu, setAmountTu] = useState(0);
   const [amountWi, setAmountWi] = useState(0);
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get("callbackOnPayment")
   const router = useRouter()
 
   const topUpHandler = () => {
     mutateTopUp({amount: amountTu, userId: userId})
     setAmountTu(0)
+    if(callbackUrl){
+      router.replace(callbackUrl)
+    }
   };
 
   const withdrawHandler = () => {

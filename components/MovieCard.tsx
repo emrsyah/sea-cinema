@@ -7,9 +7,10 @@ import React from "react";
 
 const MovieCard = ({movie}: {movie: MovieItem}) => { 
   const {id, title, description, release_date, poster_url, age_rating, ticket_price} = movie || {}
+  const movieTitle = title.includes(".") ? title.split(".").join("(dot)") : title
   return (
     <Link
-      href={`/m/${title}`}
+      href={`/m/${movieTitle}`}
       className="rounded-lg z-0 hover:border-2 hover:border-indigo-600 shadow-lg hover:scale-[102%] transition-all duration-200 ease-out cursor-pointer"
     >
       <div className="w-full relative movie-card">

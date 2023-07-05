@@ -1,5 +1,6 @@
 import SeatBooker from "@/components/SeatBooker";
 import BookingNavbar from "@/components/layouts/BookingNavbar";
+import { extractMovieTitle } from "@/helpers/extractMovieTitle";
 import { MovieItem } from "@/types";
 import React from "react";
 
@@ -11,8 +12,9 @@ async function getMovie(name: string): Promise<MovieItem> {
   if (!res.ok) {
     throw new Error("Failed to fetch data");
   }
+  const movieTitle = extractMovieTitle(name)
   return resJson.find(
-    (movies: MovieItem) => movies.title == decodeURIComponent(name)
+    (movies: MovieItem) => movies.title == movieTitle
   );
 }
 

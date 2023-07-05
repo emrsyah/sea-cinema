@@ -7,6 +7,7 @@ import React from "react";
 import TicketBooker from "@/components/TicketBooker";
 import Navbar from "@/components/layouts/Navbar";
 import { currentUser } from "@clerk/nextjs";
+import { extractMovieTitle } from "@/helpers/extractMovieTitle";
 
 async function getMovie(name: string): Promise<MovieItem> {
   const res = await fetch("https://seleksi-sea-2023.vercel.app/api/movies", {
@@ -16,9 +17,9 @@ async function getMovie(name: string): Promise<MovieItem> {
   if (!res.ok) {
     throw new Error("Failed to fetch data");
   }
-  // console.log(resJson)
+  const movieTitle = extractMovieTitle(name)
   return resJson.find(
-    (movies: MovieItem) => movies.title == decodeURIComponent(name)
+    (movies: MovieItem) => movies.title == movieTitle
   );
 }
 
