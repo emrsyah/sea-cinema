@@ -3,6 +3,7 @@ import { SeatType } from "@/types";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import Seat from "./Seat";
+import { generateSeatData } from "@/helpers/generateSeatData";
 
 
 const seatData: SeatType[] = [
@@ -264,10 +265,11 @@ const seatData: SeatType[] = [
   },
 ];
 
-const SeatMap = ({selected, setSelected} : {selected: number[], setSelected: React.Dispatch<React.SetStateAction<number[]>>}) => {
+const SeatMap = ({selected, setSelected, bookedSeat} : {selected: number[], setSelected: React.Dispatch<React.SetStateAction<number[]>>, bookedSeat: any}) => {
+  const seatTransformed = (generateSeatData({bookedSeat: bookedSeat}))
 
   const seatClickHandler = (id: number) => {
-    if (seatData[id - 1].status === "taken") return;
+    if (seatTransformed[id - 1].status === "taken") return;
     if (selected.includes(id)) {
       const updatedSeat = selected.filter((n) => n !== id);
       setSelected(updatedSeat);
@@ -282,7 +284,7 @@ const SeatMap = ({selected, setSelected} : {selected: number[], setSelected: Rea
 
   return (
     <div className="grid grid-cols-8 w-full items-center justify-center  gap-x-0 gap-y-2">
-      {seatData.map((seat) => (
+      {seatTransformed.map((seat) => (
         <Seat clickHandler={seatClickHandler} seat={seat} selected={selected} key={seat.id} />
       ))}
     </div>

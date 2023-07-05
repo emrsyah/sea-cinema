@@ -20,7 +20,7 @@ const BalancePayment = ({
   ticket: RequiredTicketParamsType;
 }) => {
   const router = useRouter();
-  const pathname = usePathname()
+  const pathname = usePathname();
   const { mutate: subtractBalance } = useSubtractbalance({});
 
   const bookSuccess = () => {
@@ -30,19 +30,24 @@ const BalancePayment = ({
   };
   const { data: balance, isLoading } = useBalance({ userId: userId });
 
-  const { mutate } = useAddTicket({ onSuccess: bookSuccess });
+  const { mutate, isLoading: loadingTicket } = useAddTicket({
+    onSuccess: bookSuccess,
+  });
 
   const payHandler = () => {
     if (isLoading) return;
-    if (!isBalanceEnough(balance?.amount, ticket?.amount * ticket?.price))
+    if (
+      !isBalanceEnough(balance?.amount, ticket?.amount * ticket?.price) ||
+      loadingTicket
+    )
       return;
     mutate({ ticket: ticket });
   };
 
   const topUpHandler = () => {
-    router.push(`/balance?callbackOnPayment=${pathname}`)
-    return
-  }
+    router.push(`/balance?callbackOnPayment=${pathname}`);
+    return;
+  };
 
   return (
     <>
@@ -63,26 +68,33 @@ const BalancePayment = ({
           balance?.amount,
           ticket?.amount * ticket?.price
         ) ? null : (
-          <button onClick={topUpHandler} className="underline text-gray-300 hover:text-white">
+          <button
+            onClick={topUpHandler}
+            className="underline text-gray-300 hover:text-white"
+          >
             Top Up
           </button>
         )}
       </div>
       <button
         onClick={payHandler}
-        disabled={isBalanceEnough(
-          balance?.amount,
-          ticket?.amount * ticket?.price
-        )}
+        disabled={
+          !isBalanceEnough(balance?.amount, ticket?.amount * ticket?.price) ||
+          loadingTicket
+        }
         className={`btn-primary mt-3 w-full ${
           isLoading
             ? "opacity-50 hover:bg-indigo-500"
+            : loadingTicket
+            ? "opacity-50 hover:bg-indigo-500"
             : isBalanceEnough(balance?.amount, ticket?.amount * ticket?.price)
-            ? ""
+            ? "cursor-pointer"
             : "opacity-50 hover:bg-indigo-500"
         } `}
       >
-        {isBalanceEnough(balance?.amount, ticket?.amount * ticket?.price)
+        {loadingTicket
+          ? "Loading..."
+          : isBalanceEnough(balance?.amount, ticket?.amount * ticket?.price)
           ? "Confirm Payment"
           : "Insufficient balance, please top up first"}
       </button>

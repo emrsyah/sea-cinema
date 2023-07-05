@@ -3,6 +3,7 @@ import { SeatType } from "@/types";
 import React from "react";
 
 const Seat = ({ seat, clickHandler, selected }: { seat: SeatType, clickHandler: (id: number) => void, selected: number[] }) => {
+  console.log(seat)
   return (
     <div
       key={seat.id}

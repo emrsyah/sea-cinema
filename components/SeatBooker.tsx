@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useTransition } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import SeatMap from "./SeatMap";
 import { MovieItem } from "@/types";
 import rupiahConverter from "@/helpers/rupiahConverter";
@@ -7,15 +7,37 @@ import { useUser } from "@clerk/nextjs";
 import { toast } from "react-toastify";
 import { addTicket } from "@/app/_actions/ticket";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import supabase from "@/lib/supabase/supabase";
+import dayjs from "dayjs";
+import { useSeat } from "@/hooks/query/useSeat";
+import { generateSeatData } from "@/helpers/generateSeatData";
 
 const SeatBooker = ({ movie }: { movie: MovieItem }) => {
-  const searchParams = useSearchParams()
-  const date = searchParams.get('date')
-  const router = useRouter()
+  const searchParams = useSearchParams();
+  const date = searchParams.get("date");
+  const router = useRouter();
   const pathname = usePathname();
+
   const [selected, setSelected] = useState<number[]>([]);
+
   const { user, isLoaded } = useUser();
   const [isPending, startTransition] = useTransition();
+  const { data: seat } = useSeat({
+    movieName: movie.title,
+    playDate: date ? date : "",
+  });
+
+  const CustomToast = () => (
+    <div>
+      Changes occurs,{" "}
+      <button
+        onClick={() => router.refresh()}
+        className="text-indigo-500 underline hover:text-indigo-600"
+      >
+        see latest update
+      </button>
+    </div>
+  );
 
   const bookClickHandler = () => {
     if (!isLoaded) return;
@@ -29,9 +51,36 @@ const SeatBooker = ({ movie }: { movie: MovieItem }) => {
       });
       return;
     }
-    startTransition(() => addTicket({seat: selected, date: date as string}))
+    startTransition(() => addTicket({ seat: selected, date: date as string }));
     router.push(`${pathname}/payment`);
   };
+
+  useEffect(() => {
+    // Realtime seat update
+    const channel = supabase
+      .channel("ticket-changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "ticket",
+          filter: `movieName=eq.${movie.title}`,
+        },
+        (payload) => {
+          if (dayjs(payload.new.playDate).format("YYYY-MM-DD") === date) {
+            toast.info(CustomToast);
+            console.log("Change received!", payload);
+          }
+        }
+      )
+      .subscribe();
+
+    // clean up
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   return (
     <>
@@ -39,7 +88,7 @@ const SeatBooker = ({ movie }: { movie: MovieItem }) => {
         <div className="bg-gray-900 w-full p-2 rounded mb-4 flex items-center justify-center font-medium">
           Screen Here
         </div>
-        <SeatMap selected={selected} setSelected={setSelected} />
+        <SeatMap selected={selected} setSelected={setSelected} bookedSeat={seat} />
       </div>
       <div className="bg-gray-950 p-4 sticky bottom-0 opacity-90">
         <div className="max-w-xl mx-auto flex justify-between items-center">
