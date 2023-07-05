@@ -7,6 +7,7 @@ import Image from "next/image";
 import React from "react";
 import { ArrowLeft } from "react-feather";
 import { currentUser } from '@clerk/nextjs';
+import PlainNavbar from "@/components/layouts/PlainNavbar";
 
 async function getMovie(name: string): Promise<MovieItem> {
   const res = await fetch("https://seleksi-sea-2023.vercel.app/api/movies", {
@@ -25,17 +26,11 @@ const PaymentPage = async ({ params }: { params: { name: string } }) => {
   const ticket = await getTicket();
   const movie = await getMovie(params.name);
   const user = await currentUser()
-  console.log(user)
   const ticketParsed: TicketCheckoutType = JSON.parse(ticket as string);
 
   return (
     <div>
-      <nav className="p-4 flex items-center bg-gray-950 border-b-[1.5px] border-b-gray-800">
-        <ArrowLeft />
-        <h3 className="flex-1 raleway font-semibold text-lg flex items-center justify-center">
-          Order Summary
-        </h3>
-      </nav>
+      <PlainNavbar title="Order Summary" />
       <div className="p-2 my-4 w-full">
         <div className="max-w-lg  mx-auto p-4 rounded-md bg-gray-950 flex flex-col gap-2">
           <div className="flex sm:flex-row flex-col gap-2">

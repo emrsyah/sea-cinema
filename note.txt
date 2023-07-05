@@ -9,3 +9,8 @@ IMPROVEMENT TEKNIS:
    https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming
 
 3. Fetch data di layout buat movie detail dan booking.
+
+4. Buat kek folder hooks query itu kan ada yang buat ticket, balance. coba buat per folder dan nanti di export pake satu file aja misalnya index.ts nya untuk masing" bagian ticket dan balance biar kek library"
+
+KONTEN README:
+1. Tambahin catatan future improvement (pake orm kek drizzle or prisma, optimasi hal" list atas)

@@ -6,6 +6,7 @@ import Image from "next/image";
 import React from "react";
 import TicketBooker from "@/components/TicketBooker";
 import Navbar from "@/components/layouts/Navbar";
+import { currentUser } from "@clerk/nextjs";
 
 async function getMovie(name: string): Promise<MovieItem> {
   const res = await fetch("https://seleksi-sea-2023.vercel.app/api/movies", {
@@ -23,10 +24,11 @@ async function getMovie(name: string): Promise<MovieItem> {
 
 const MovieDetail = async ({ params }: { params: { name: string } }) => {
   const movie = await getMovie(params.name);
+  const user = await currentUser()
 
   return (
     <>
-      <Navbar />
+      <Navbar userId={user ? user.id : ""} />
       <div className="  w-full flex items-center justify-center">
         <main className="max-w-5xl my-6 mx-12 gap-6 grid grid-cols-3">
           <div className="col-span-3 md:col-span-1">

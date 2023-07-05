@@ -1,6 +1,7 @@
 import MovieGrid from "@/components/MovieGrid";
 import Navbar from "@/components/layouts/Navbar";
 import { MovieItem } from "@/types";
+import { currentUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,9 +16,10 @@ async function getMovies(): Promise<MovieItem[]> {
 
 export default async function Home() {
   const movies = await getMovies();
+  const user = await currentUser()
   return (
     <main>
-      <Navbar />
+      <Navbar userId={user ? user.id : ""} />
       <div className="max-w-7xl m-6 gap-4 grid grid-cols-6 items-center ">
         <div className=" col-span-6 md:col-span-4 flex flex-col gap-2">
           {/* <h1 className='text-4xl font-bold raleway'>Movies at Your Fingertips.</h1> */}

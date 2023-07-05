@@ -16,7 +16,7 @@ const CustomToast = () => (
 const TicketBooker = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const dayOption = getThreeDays();
+  const [dayOption, setDayOption] = useState(getThreeDays());
   const [selectedDay, setSelectedDay] = useState(dayOption[0]);
   const { isLoaded, isSignedIn } = useUser();
 

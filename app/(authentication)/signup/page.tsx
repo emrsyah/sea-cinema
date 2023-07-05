@@ -6,6 +6,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useSignUp } from "@clerk/nextjs";
 import InputErrorIndicator from "@/components/InputErrorIndicator";
 import { toast } from "react-toastify";
+import { useAddBalance } from "@/hooks/query/useAddBalance";
 
 const SignUp = () => {
   const router = useRouter();
@@ -18,6 +19,7 @@ const SignUp = () => {
     setError,
   } = useForm<FormSignUpType>();
 
+
   const submitHandler: SubmitHandler<FormSignUpType> = async (input) => {
     if (!isLoaded) return;
 
@@ -27,6 +29,7 @@ const SignUp = () => {
     }
     if(input.username.split(" ").length > 1){
       setError("username", {type: "whitespace"})
+      return;
     }
     const toastId = toast.loading("Please wait...")
     try {
@@ -37,7 +40,6 @@ const SignUp = () => {
           age: input.age
         }
       });
-      console.log(res);
       if (res?.status === "complete") {
         await setActive({ session: res.createdSessionId });
         router.push("/");
@@ -57,7 +59,6 @@ const SignUp = () => {
       }
       toast.update(toastId, { render: "Something Wrong", type: "error", isLoading: false, autoClose: 1500 });
     }
-    // console.log(data)
   };
 
   if (!isLoaded) {
