@@ -1,8 +1,9 @@
 "use client";
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Tab } from "@headlessui/react";
 import { useTicket } from "@/hooks/query/ticket/useTicket";
 import TicketCard from "../TicketCard";
+import CancelBookConfirmationModal from "./CancelBookConfirmationModal";
 
 const TicketTabs = ({ userId }: { userId: string }) => {
   const { data: tickets = [], isLoading } = useTicket({ userId: userId });
@@ -12,14 +13,18 @@ const TicketTabs = ({ userId }: { userId: string }) => {
       new Date(ticket.playDate).setUTCHours(0, 0, 0, 0) >=
         new Date().setUTCHours(0, 0, 0, 0)
   );
-  console.log(activeTickets)
+  // console.log(activeTickets)
   const nonActiveTickets = tickets?.filter(
     (ticket) =>
       ticket.status !== "success" ||
       new Date(ticket.playDate).setUTCHours(0, 0, 0, 0) <
         new Date().setUTCHours(0, 0, 0, 0)
   );
+
+
   return (
+    <>
+    <CancelBookConfirmationModal />
     <Tab.Group>
       <Tab.List className={"w-full grid grid-cols-2 mb-4"}>
         <Tab as={Fragment}>
@@ -68,6 +73,7 @@ const TicketTabs = ({ userId }: { userId: string }) => {
         </Tab.Panel>
       </Tab.Panels>
     </Tab.Group>
+    </>
   );
 };
 

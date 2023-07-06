@@ -1,28 +1,23 @@
 "use client";
-import { useAuth } from "@clerk/nextjs";
+import { useModalStore } from "@/store";
 import { Menu } from "@headlessui/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { Eye, Map, MoreHorizontal, Trash } from "react-feather";
+import { Eye, MoreHorizontal, Trash } from "react-feather";
 
 const TicketMoreMenu = ({ isActive, seats }: { isActive: boolean, seats: number[] }) => {
-    console.log(seats)
-  const { isLoaded, signOut } = useAuth();
   const router = useRouter();
+  const {toggle} = useModalStore()
 
   const cancelHandler = () => {
-    if (!isLoaded) {
-      console.error("try later");
-    }
     if (!isActive) {
       return;
     }
-    signOut();
-    router.refresh();
+    toggle()
   };
 
   return (
+    <>
     <Menu as="div" className="relative items-center">
       <Menu.Button className="px-1 rounded hover:bg-gray-900">
         <MoreHorizontal className="w-4 " />
@@ -60,6 +55,7 @@ const TicketMoreMenu = ({ isActive, seats }: { isActive: boolean, seats: number[
         ) : null}
       </Menu.Items>
     </Menu>
+    </>
   );
 };
 
