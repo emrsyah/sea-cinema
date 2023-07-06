@@ -82,6 +82,7 @@ const SeatBooker = ({ movie }: { movie: MovieItem }) => {
     };
   }, []);
 
+
   return (
     <>
       <div className="max-w-xl m-6 p-2 mx-auto ">

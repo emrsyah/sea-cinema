@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useUser } from "@clerk/nextjs";
 import rupiahConverter from "@/helpers/rupiahConverter";
-import ProfileMenu from "../ProfileMenu";
+import ProfileMenu from "../headless-ui/ProfileMenu";
 import { useBalance } from "@/hooks/query/balance/useBalance";
 
 const Navbar = ({userId} : {userId: string}) => {

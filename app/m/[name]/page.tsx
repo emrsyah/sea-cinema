@@ -4,7 +4,7 @@ import { MovieItem } from "@/types";
 import dayjs from "dayjs";
 import Image from "next/image";
 import React from "react";
-import TicketBooker from "@/components/TicketBooker";
+import TicketBooker from "@/components/headless-ui/TicketBooker";
 import Navbar from "@/components/layouts/Navbar";
 import { currentUser } from "@clerk/nextjs";
 import { extractMovieTitle } from "@/helpers/extractMovieTitle";

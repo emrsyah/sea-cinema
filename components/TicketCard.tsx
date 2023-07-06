@@ -2,9 +2,10 @@ import rupiahConverter from "@/helpers/rupiahConverter";
 import { TicketType } from "@/types";
 import dayjs from "dayjs";
 import React from "react";
-import { Calendar, MoreHorizontal, Pocket } from "react-feather";
+import { Calendar, Pocket } from "react-feather";
+import TicketMoreMenu from "./headless-ui/TicketMoreMenu";
 
-const TicketCard = ({ticket} : {ticket: TicketType}) => {
+const TicketCard = ({ticket, isActive} : {ticket: TicketType, isActive: boolean}) => {
   return (
     <div
       className="pt-1 px-1 pb-2 border-b-[1.5px] border-gray-800"
@@ -30,9 +31,7 @@ const TicketCard = ({ticket} : {ticket: TicketType}) => {
           <div className="flex text-sm text-gray-400 font-medium items-center gap-2">
             Total: {rupiahConverter(ticket.amount * ticket.price)}
           </div>
-          <button className="px-1 rounded hover:bg-gray-900">
-            <MoreHorizontal className="w-4 " />
-          </button>
+          <TicketMoreMenu isActive={isActive} seats={ticket.seat} />
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import TicketTabs from '@/components/TicketTabs'
+import TicketTabs from '@/components/headless-ui/TicketTabs'
 import PlainNavbar from '@/components/layouts/PlainNavbar'
 import { currentUser } from '@clerk/nextjs'
 import React from 'react'

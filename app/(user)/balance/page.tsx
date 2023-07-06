@@ -1,15 +1,10 @@
 import Balance from "@/components/Balance";
-import { TopUpWithdrawTabs } from "@/components/TopUpWithdrawTabs";
+import { TopUpWithdrawTabs } from "@/components/headless-ui/TopUpWithdrawTabs";
 import PlainNavbar from "@/components/layouts/PlainNavbar";
-import rupiahConverter from "@/helpers/rupiahConverter";
-import { useBalance } from "@/hooks/query/balance/useBalance";
 import { currentUser, useUser } from "@clerk/nextjs";
 import React from "react";
 
 const BalancePage = async () => {
-  // Ubah ini jadi server page, untuk masing" componen nya jadiin klien (buat yg show total balance ama top up)
-  // jadi ini dapetin userId pake server aja, nanti di pass ke masing" komponen
-  // buat refetch di topUp withdraw mah tinggal inisiasi aja use balance disana.
   const user = await currentUser();
   return (
     <>

@@ -11,7 +11,7 @@ const Seat = ({ seat, clickHandler, selected }: { seat: SeatType, clickHandler: 
       <div
         onClick={() => clickHandler(seat.id)}
         className={`w-10 h-10 flex items-center justify-center rounded-md ${
-          selected.includes(seat.id)
+          (selected.includes(seat.id) || seat.status === "selected")
             ? "bg-indigo-500 cursor-pointer hover:bg-indigo-700"
             : seat.status === "available"
             ? "bg-gray-900 cursor-pointer hover:bg-gray-950 hover:text-indigo-500"

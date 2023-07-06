@@ -2,12 +2,7 @@
 import React, { Fragment } from "react";
 import { Tab } from "@headlessui/react";
 import { useTicket } from "@/hooks/query/ticket/useTicket";
-import { Calendar, MoreHorizontal, Pocket } from "react-feather";
-import dayjs from "dayjs";
-import rupiahConverter from "@/helpers/rupiahConverter";
-import TicketCard from "./TicketCard";
-var isSameOrAfter = require("dayjs/plugin/isSameOrAfter");
-dayjs.extend(isSameOrAfter);
+import TicketCard from "../TicketCard";
 
 const TicketTabs = ({ userId }: { userId: string }) => {
   const { data: tickets = [], isLoading } = useTicket({ userId: userId });
@@ -17,6 +12,7 @@ const TicketTabs = ({ userId }: { userId: string }) => {
       new Date(ticket.playDate).setUTCHours(0, 0, 0, 0) >=
         new Date().setUTCHours(0, 0, 0, 0)
   );
+  console.log(activeTickets)
   const nonActiveTickets = tickets?.filter(
     (ticket) =>
       ticket.status !== "success" ||
@@ -30,7 +26,7 @@ const TicketTabs = ({ userId }: { userId: string }) => {
           {({ selected }) => (
             /* Use the `selected` state to conditionally style the selected tab. */
             <button
-              className={` font-semibold raleway outline-none text-gray-400 w-full ${
+              className={` font-semibold text-lg raleway outline-none text-gray-400 w-full ${
                 selected ? "text-indigo-600 border-b-4 border-b-indigo-500" : ""
               }`}
             >
@@ -42,7 +38,7 @@ const TicketTabs = ({ userId }: { userId: string }) => {
           {({ selected }) => (
             /* Use the `selected` state to conditionally style the selected tab. */
             <button
-              className={` font-semibold raleway outline-none text-gray-400 w-full ${
+              className={` font-semibold text-lg raleway outline-none text-gray-400 w-full ${
                 selected ? "text-indigo-600 border-b-4 border-b-indigo-500" : ""
               }`}
             >
@@ -58,7 +54,7 @@ const TicketTabs = ({ userId }: { userId: string }) => {
             : !activeTickets?.length
             ? "No Data"
             : activeTickets.map((ticket) => (
-                <TicketCard ticket={ticket} key={ticket.id} />
+                <TicketCard isActive={true} ticket={ticket} key={ticket.id} />
               ))}
         </Tab.Panel>
         <Tab.Panel className={"flex flex-col gap-3"}>
@@ -67,7 +63,7 @@ const TicketTabs = ({ userId }: { userId: string }) => {
             : !nonActiveTickets?.length
             ? "No Data"
             : nonActiveTickets.map((ticket) => (
-                <TicketCard ticket={ticket} key={ticket.id} />
+                <TicketCard isActive={false} ticket={ticket} key={ticket.id} />
               ))}
         </Tab.Panel>
       </Tab.Panels>

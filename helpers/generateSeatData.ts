@@ -1,7 +1,7 @@
 import { TicketType } from "@/types";
 
 export const generateSeatData = ({
-  bookedSeat,
+  bookedSeat = [],
 }: {
   bookedSeat: TicketType[] | [];
 }) => {

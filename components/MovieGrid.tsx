@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Selector from "./Selector";
+import React, { useState } from "react";
+import Selector from "./headless-ui/Selector";
 import MovieCard from "./MovieCard";
 import { Search } from "react-feather";
 import { MovieFilterAndSort, MovieItem } from "@/types";
