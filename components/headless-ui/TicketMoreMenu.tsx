@@ -1,19 +1,21 @@
 "use client";
-import { useModalStore } from "@/store";
+import { useCancelModalStore } from "@/store";
 import { Menu } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { Eye, MoreHorizontal, Trash } from "react-feather";
 
-const TicketMoreMenu = ({ isActive, seats }: { isActive: boolean, seats: number[] }) => {
+const TicketMoreMenu = ({ isActive, seats, ticketId, total }: { isActive: boolean, seats: number[], ticketId: number, total: number }) => {
   const router = useRouter();
-  const {toggle} = useModalStore()
+  const {toggle, setTicket,setTotal} = useCancelModalStore()
 
   const cancelHandler = () => {
     if (!isActive) {
       return;
     }
     toggle()
+    setTicket(ticketId)
+    setTotal(total)
   };
 
   return (

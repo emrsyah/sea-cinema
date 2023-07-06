@@ -1,10 +1,45 @@
-import { useModalStore } from "@/store";
+"use client";
+import { useAddBalance } from "@/hooks/query/balance/useAddBalance";
+import { useCancelTicket } from "@/hooks/query/ticket/useCancelTicket";
+import { useCancelModalStore } from "@/store";
 import { Dialog } from "@headlessui/react";
-import React, { useState } from "react";
+import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "@tanstack/react-query";
+import React from "react";
 import { AlertTriangle, X } from "react-feather";
+import { toast } from "react-toastify";
 
-const CancelBookConfirmationModal = () => {
-  const { isOpen, toggle } = useModalStore();
+const CancelBookConfirmationModal = ({
+  userId,
+  refetcher,
+}: {
+  userId: string;
+  refetcher: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+  ) => Promise<QueryObserverResult<any[] | null, unknown>>;
+}) => {
+  const { isOpen, toggle, ticketId, totalPrice } = useCancelModalStore();
+
+  const successCancelHandler = () => {
+    addBalance({ userId: userId, amount: totalPrice });
+  };
+
+  const successRefundHandler = () => {
+    toggle();
+    refetcher()
+    toast.success("Cancel and refund success");
+  };
+
+  const { mutate: cancelTicket } = useCancelTicket({
+    onSuccess: successCancelHandler,
+  });
+  const { mutate: addBalance } = useAddBalance({
+    onSuccess: successRefundHandler,
+  });
+
+  const confirmHandler = () => {
+    cancelTicket({ ticketId: ticketId });
+  };
+
   return (
     <Dialog open={isOpen} onClose={toggle} className="relative z-50">
       {/* The backdrop, rendered as a fixed sibling to the panel container */}
@@ -13,38 +48,35 @@ const CancelBookConfirmationModal = () => {
       {/* Full-screen container to center the panel */}
       <div className="fixed inset-0 flex items-center justify-center p-4">
         {/* The actual dialog panel  */}
-        <Dialog.Panel className="mx-auto w-[650px] max-w-sm rounded bg-white p-4 shadow-xl">
+        <Dialog.Panel className="mx-auto w-[650px] max-w-sm rounded bg-gray-900 p-4 shadow-xl">
           <div className="flex items-center justify-between">
-            <Dialog.Title className="flex items-center gap-2 font-semibold">
-              <div className="rounded-full bg-red-100 p-1 text-red-600">
+            <Dialog.Title className="flex items-center gap-3 font-semibold">
+              <div className="rounded-full bg-red-300 p-1 text-red-600">
                 <AlertTriangle size="20" />
-                {isOpen ? "true" : "false"}
               </div>
-              <p>Konfirmasi Penghapusan</p>
+              <p className="raleway">Cancel Confirmation</p>
             </Dialog.Title>
-            <button
-            // onClick={cancelHandler}
-            >
+            <button onClick={toggle}>
               <X size="20" />
             </button>
           </div>
-          <div className="mt-2 mb-5">
-            <p className="font-medium tracking-wide text-gray-600">
-              Apa anda yakin ingin menghapus {"type"} ini?
+          <div className="mt-3 mb-5">
+            <p className="font-normal tracking-wide text-gray-300">
+              Do you sure to cancel and refund?
             </p>
           </div>
           <div className="flex items-center justify-end gap-2">
             <button
               onClick={toggle}
-              className="btn-base rounded border-[1px] border-gray-400 font-semibold text-gray-800 hover:bg-gray-100"
+              className="py-1 px-2 text-sm btn-secondary"
             >
-              Batalkan
+              Cancel
             </button>
             <button
-              //   onClick={deleteHandler}
-              className="btn-base rounded bg-red-600 text-white hover:bg-red-700"
+              onClick={confirmHandler}
+              className="py-1 px-2 text-sm font-medium rounded bg-red-600 text-white hover:bg-red-700"
             >
-              Konfirmasi
+              Confirm
             </button>
           </div>
         </Dialog.Panel>

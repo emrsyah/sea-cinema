@@ -31,7 +31,7 @@ const TicketCard = ({ticket, isActive} : {ticket: TicketType, isActive: boolean}
           <div className="flex text-sm text-gray-400 font-medium items-center gap-2">
             Total: {rupiahConverter(ticket.amount * ticket.price)}
           </div>
-          <TicketMoreMenu isActive={isActive} seats={ticket.seat} />
+          <TicketMoreMenu isActive={isActive} seats={ticket.seat} ticketId={ticket.id} total={(ticket.amount * ticket.price)} />
         </div>
       </div>
     </div>

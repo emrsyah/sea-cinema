@@ -6,7 +6,7 @@ import TicketCard from "../TicketCard";
 import CancelBookConfirmationModal from "./CancelBookConfirmationModal";
 
 const TicketTabs = ({ userId }: { userId: string }) => {
-  const { data: tickets = [], isLoading } = useTicket({ userId: userId });
+  const { data: tickets = [], isLoading, refetch } = useTicket({ userId: userId });
   const activeTickets = tickets?.filter(
     (ticket) =>
       ticket.status === "success" &&
@@ -24,7 +24,7 @@ const TicketTabs = ({ userId }: { userId: string }) => {
 
   return (
     <>
-    <CancelBookConfirmationModal />
+    <CancelBookConfirmationModal userId={userId} refetcher={refetch} />
     <Tab.Group>
       <Tab.List className={"w-full grid grid-cols-2 mb-4"}>
         <Tab as={Fragment}>
