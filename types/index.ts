@@ -48,7 +48,7 @@ export type TicketType = {
   price: number;
   seat: number[];
   playDate: Date;
-  status: "success" | "failed" | "refund";
+  status: "success" | "failed" | "cancelled";
   createdAt: Date;
   updatedAt: Date;
 }
