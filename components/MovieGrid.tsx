@@ -6,6 +6,7 @@ import { Search } from "react-feather";
 import { MovieFilterAndSort, MovieItem } from "@/types";
 import { ageOption, sortOption } from "@/types/data";
 import { useFilteredAndSortedMovies } from "@/hooks/useFilteredAndSortedMovies";
+import NoData from "./layouts/NoData";
 
 const MovieGrid = ({ movies }: { movies: MovieItem[] }) => {
   const [searchQuery, setSearchQuery] = useState<string>("")
@@ -55,6 +56,11 @@ const MovieGrid = ({ movies }: { movies: MovieItem[] }) => {
         {filteredAndSortedMovies.map((movie) => (
           <MovieCard key={movie.poster_url} movie={movie} />
         ))}
+        {filteredAndSortedMovies.length === 0 ? (
+          <div className="w-full col-span-4 items-center">
+            <NoData content="No Movie Found" />
+          </div>
+        ) : null}
       </div>
     </>
   );
