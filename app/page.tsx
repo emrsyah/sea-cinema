@@ -3,8 +3,6 @@ import MovieGrid from "@/components/MovieGrid";
 import Navbar from "@/components/layouts/Navbar";
 import { MovieItem } from "@/types";
 import { currentUser } from "@clerk/nextjs";
-import Image from "next/image";
-import Link from "next/link";
 
 const gotgData = {
   id: 9,
@@ -44,9 +42,9 @@ export default async function Home() {
           <h3 className="raleway font-medium">
             Unleash the Cinematic Experience: Easy Booking, Memorable Movies!
           </h3>
-          <button className="btn-primary w-fit mt-4 text-lg">
+          <a href="#movieGrid" className="btn-primary w-fit mt-4 text-lg">
             Explore Your Next Movie
-          </button>
+          </a>
         </div>
         <div className="hidden md:flex col-span-2 items-center justify-center">
           <MovieCard movie={gotgData} />
@@ -82,7 +80,7 @@ export default async function Home() {
           </Link> */}
         </div>
       </div>
-      <div className="max-w-7xl mx-6 flex flex-col mt-20 mb-6">
+      <div id="movieGrid" className="max-w-7xl movieGrid mx-6 flex flex-col mt-20 mb-6">
         <MovieGrid movies={movies} />
       </div>
     </main>

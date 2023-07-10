@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import ToastProvider from "@/lib/ToastProvider";
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-loading-skeleton/dist/skeleton.css'
+
 
 const inter = Inter({ subsets: ["latin"] });
 
