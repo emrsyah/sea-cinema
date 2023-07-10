@@ -4,6 +4,7 @@ import { Tab } from "@headlessui/react";
 import { useTicket } from "@/hooks/query/ticket/useTicket";
 import TicketCard from "../TicketCard";
 import CancelBookConfirmationModal from "./CancelBookConfirmationModal";
+import NoData from "../layouts/NoData";
 
 const TicketTabs = ({ userId }: { userId: string }) => {
   const { data: tickets = [], isLoading, refetch } = useTicket({ userId: userId });
@@ -57,7 +58,7 @@ const TicketTabs = ({ userId }: { userId: string }) => {
           {isLoading
             ? "Loading..."
             : !activeTickets?.length
-            ? "No Data"
+            ? <NoData content="Empty ticket, go buy some" />
             : activeTickets.map((ticket) => (
                 <TicketCard isActive={true} ticket={ticket} key={ticket.id} />
               ))}
@@ -66,7 +67,7 @@ const TicketTabs = ({ userId }: { userId: string }) => {
           {isLoading
             ? "Loading..."
             : !nonActiveTickets?.length
-            ? "No Data"
+            ? <NoData content="No transaction yet" />
             : nonActiveTickets.map((ticket) => (
                 <TicketCard isActive={false} ticket={ticket} key={ticket.id} />
               ))}
