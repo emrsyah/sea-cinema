@@ -6,7 +6,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useSignUp } from "@clerk/nextjs";
 import InputErrorIndicator from "@/components/InputErrorIndicator";
 import { toast } from "react-toastify";
-import { useAddBalance } from "@/hooks/query/useAddBalance";
 
 const SignUp = () => {
   const router = useRouter();
