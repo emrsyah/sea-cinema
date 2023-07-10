@@ -1,3 +1,4 @@
+import MovieCard from "@/components/MovieCard";
 import MovieGrid from "@/components/MovieGrid";
 import Navbar from "@/components/layouts/Navbar";
 import { MovieItem } from "@/types";
@@ -5,8 +6,21 @@ import { currentUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 
+const gotgData = {
+  id: 9,
+  title: "Guardians of the Galaxy Vol. 3",
+  description:
+    "Peter Quill masih trauma karena kehilangan Gamora. Ia perlu mengumpulkan timnya untuk melindungi alam semesta dan salah satu anggota mereka. Jika mereka gagal, Guardian akan berakhir.",
+  release_date: "2023-05-03",
+  poster_url: "https://image.tmdb.org/t/p/w500/nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg",
+  age_rating: 12,
+  ticket_price: 41000,
+};
+
 async function getMovies(): Promise<MovieItem[]> {
-  const res = await fetch("https://seleksi-sea-2023.vercel.app/api/movies", { next: { revalidate: 3600 } });
+  const res = await fetch("https://seleksi-sea-2023.vercel.app/api/movies", {
+    next: { revalidate: 3600 },
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch data");
@@ -16,7 +30,7 @@ async function getMovies(): Promise<MovieItem[]> {
 
 export default async function Home() {
   const movies = await getMovies();
-  const user = await currentUser()
+  const user = await currentUser();
   return (
     <main>
       <Navbar userId={user ? user.id : ""} />
@@ -35,7 +49,8 @@ export default async function Home() {
           </button>
         </div>
         <div className="hidden md:flex col-span-2 items-center justify-center">
-          <Link
+          <MovieCard movie={gotgData} />
+          {/* <Link
             href={"/"}
             className="rounded-lg shadow-lg  hover:scale-[102%] transition-all duration-200 ease-out cursor-pointer"
           >
@@ -64,11 +79,11 @@ export default async function Home() {
                 <h3 className="mt-1 font-bold text-indigo-500">Rp 56.0000</h3>
               </div>
             </div>
-          </Link>
+          </Link> */}
         </div>
       </div>
       <div className="max-w-7xl mx-6 flex flex-col mt-20 mb-6">
-      <MovieGrid movies={movies} />
+        <MovieGrid movies={movies} />
       </div>
     </main>
   );

@@ -17,5 +17,5 @@ export const addTicket = async (input: TicketCheckoutType) => {
     value: JSON.stringify(input),
     expires: expirationTime,
   });
-  console.log(cookieStore.get("ticketD"))
+  // console.log(cookieStore.get("ticketD"))
 };

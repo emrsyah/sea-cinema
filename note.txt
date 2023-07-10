@@ -1,6 +1,7 @@
 FITUR TAMBAHAN:
 1. Review Film Dinamis serta Rating.
 2. Add to wishlist/favorites movie
+3. Dibawah yang detail movie tambahin film" random lainnya kek 3-5 film random aja.
 
 IMPROVEMENT TEKNIS:
 1. Pake generateStatisParams buat generate parameter dinamik yang statis:

@@ -49,7 +49,7 @@ const ProfileMenu = ({ username }: { username: string }) => {
               className={`text-gray-400 font-medium text-sm flex items-center gap-4 w-full p-2 ${
                 active && "text-white"
               }`}
-              //   href="/account-settings"
+                // href="/account-settings"
             >
               <Settings className="w-5" />
               Settings
