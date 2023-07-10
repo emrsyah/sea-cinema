@@ -33,7 +33,7 @@ export default async function Home() {
   const user = await currentUser();
   return (
     <main>
-      <Navbar userId={user ? user.id : ""} />
+      <Navbar userId={user ? user.id : ""} username={user ? user.username! : ""} age={user ? user.unsafeMetadata.age as number : 0} />
       <div className="max-w-7xl m-6 gap-4 grid grid-cols-6 items-center ">
         <div className=" col-span-6 md:col-span-4 flex flex-col gap-2">
           {/* <h1 className='text-4xl font-bold raleway'>Movies at Your Fingertips.</h1> */}

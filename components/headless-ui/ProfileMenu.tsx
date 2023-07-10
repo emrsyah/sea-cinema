@@ -1,4 +1,5 @@
 "use client";
+import { useSettingModalStore } from "@/store";
 import { useAuth } from "@clerk/nextjs";
 import { Menu } from "@headlessui/react";
 import Link from "next/link";
@@ -9,6 +10,7 @@ import { LogOut, Pocket, Settings } from "react-feather";
 const ProfileMenu = ({ username }: { username: string }) => {
   const { isLoaded, signOut } = useAuth();
   const router = useRouter();
+  const {toggle} = useSettingModalStore()
 
   const logoutHandler = () => {
     if (!isLoaded) {
@@ -49,6 +51,7 @@ const ProfileMenu = ({ username }: { username: string }) => {
               className={`text-gray-400 font-medium text-sm flex items-center gap-4 w-full p-2 ${
                 active && "text-white"
               }`}
+              onClick={toggle}
                 // href="/account-settings"
             >
               <Settings className="w-5" />

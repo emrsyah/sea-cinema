@@ -1,11 +1,13 @@
 "use client"
 import { create } from "zustand";
 
-interface CancelModalStore {
-    isOpen: boolean;
+type GeneralModalStore = {
+  isOpen: boolean;
+  toggle: () => void;
+}
+interface CancelModalStore extends GeneralModalStore {
     ticketId: number;
     totalPrice: number;
-    toggle: () => void;
     setTicket: (ticketId: number) => void
     setTotal: (total: number) => void
 }
@@ -17,4 +19,9 @@ export const useCancelModalStore = create<CancelModalStore>((set) => ({
   toggle: () => set((state) => ({ isOpen: !state.isOpen })),
   setTicket: (ticketId: number) => set((state) => ({ticketId: ticketId})),
   setTotal: (total: number) => set((state) => ({totalPrice: total}))
+}));
+
+export const useSettingModalStore = create<GeneralModalStore>((set) => ({
+  isOpen: false,
+  toggle: () => set((state) => ({ isOpen: !state.isOpen })),
 }));

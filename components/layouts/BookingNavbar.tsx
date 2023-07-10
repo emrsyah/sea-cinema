@@ -12,7 +12,8 @@ const BookingNavbar = ({ movie }: { movie: MovieItem }) => {
   const date = searchParams.get('date')
 
   const backArrowHandler = () => {
-    router.push(`/m/${movie.title}`)
+    const movieTitle = movie.title.includes(".") ? movie.title.split(".").join("(dot)") : movie.title
+    router.push(`/m/${movieTitle}`)
   };
 
   return (

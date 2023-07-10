@@ -6,14 +6,17 @@ import { useUser } from "@clerk/nextjs";
 import rupiahConverter from "@/helpers/rupiahConverter";
 import ProfileMenu from "../headless-ui/ProfileMenu";
 import { useBalance } from "@/hooks/query/balance/useBalance";
+import SettingsModal from "../headless-ui/SettingsModal";
 
-const Navbar = ({userId} : {userId: string}) => {
+const Navbar = ({userId, username, age} : {userId: string, username: string, age:number}) => {
   const router = useRouter();
   const { user, isLoaded, isSignedIn } = useUser();
   const { data, error, isLoading } = useBalance({
     userId: userId ? userId : "",
   });
   return (
+    <>
+    <SettingsModal username={username} age={age} />
     <nav className="p-6 flex items-center justify-between">
       <Link href={"/"} className="font-bold text-lg raleway text-indigo-500">
         sea<span className="text-white raleway">cinema</span>
@@ -47,6 +50,7 @@ const Navbar = ({userId} : {userId: string}) => {
         ) : null}
       </div>
     </nav>
+    </>
   );
 };
 

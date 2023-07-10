@@ -29,7 +29,7 @@ const MovieDetail = async ({ params }: { params: { name: string } }) => {
 
   return (
     <>
-      <Navbar userId={user ? user.id : ""} />
+      <Navbar userId={user ? user.id : ""} username={user ? user.username! : ""} age={user ? user.unsafeMetadata.age as number : 0} />
       <div className="  w-full flex items-center justify-center">
         <main className="max-w-5xl my-6 mx-12 gap-6 grid grid-cols-3">
           <div className="col-span-3 md:col-span-1">
