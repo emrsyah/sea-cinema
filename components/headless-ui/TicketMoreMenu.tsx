@@ -10,11 +10,13 @@ const TicketMoreMenu = ({
   seats,
   ticketId,
   total,
+  status
 }: {
   isActive: boolean;
   seats: number[];
   ticketId: number;
   total: number;
+  status: "success" | "cancelled" | "failed"
 }) => {
   const router = useRouter();
   const { toggle, setTicket, setTotal } = useCancelModalStore();
@@ -35,7 +37,7 @@ const TicketMoreMenu = ({
           <MoreHorizontal className="w-4 " />
         </Menu.Button>
         <Menu.Items className="flex  items-start flex-col  text-[15px] z-20 font-normal p-2 w-56 text-sm gap-1 rounded bg-gray-800 absolute right-0">
-          {!isActive ? (
+          {!isActive && status !== "cancelled" ? (
             <Menu.Item>
               {({ active }) => (
                 <button
