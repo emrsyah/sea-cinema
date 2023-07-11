@@ -19,7 +19,6 @@ const TicketTabs = ({ userId }: { userId: string }) => {
       new Date(ticket.playDate).setUTCHours(0, 0, 0, 0) >=
         new Date().setUTCHours(0, 0, 0, 0)
   );
-  // console.log(activeTickets)
   const nonActiveTickets = tickets?.filter(
     (ticket) =>
       ticket.status !== "success" ||

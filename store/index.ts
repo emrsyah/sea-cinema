@@ -1,4 +1,5 @@
 "use client";
+import { PickedReviewType } from "@/types";
 import { create } from "zustand";
 
 type GeneralModalStore = {
@@ -12,10 +13,11 @@ interface CancelModalStore extends GeneralModalStore {
   setTotal: (total: number) => void;
 }
 
-
 interface ReviewModalStore extends GeneralModalStore {
-  movieName: string
+  movieName: string;
+  review?: PickedReviewType;
   setMovieName: (name: string) => void;
+  setReview: (review: PickedReviewType) => void;
 }
 
 export const useCancelModalStore = create<CancelModalStore>((set) => ({
@@ -35,6 +37,12 @@ export const useSettingModalStore = create<GeneralModalStore>((set) => ({
 export const useReviewModalStore = create<ReviewModalStore>((set) => ({
   isOpen: false,
   movieName: "",
+  review: {
+    id: -1,
+    rating: 5,
+    review: "",
+  },
+  setReview: (review: PickedReviewType) => set(() => ({ review: review })),
   setMovieName: (movieName: string) => set(() => ({ movieName: movieName })),
   toggle: () => set((state) => ({ isOpen: !state.isOpen })),
 }));

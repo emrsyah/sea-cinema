@@ -51,9 +51,30 @@ export type TicketType = {
   status: "success" | "failed" | "cancelled";
   createdAt: Date;
   updatedAt: Date;
+};
+
+export type ReviewType = {
+  id: number;
+  userId: string;
+  username: string;
+  movieName: string;
+  rating: number;
+  review: string;
+  updatedAt: Date;
+  createdAt: Date;
+};
+
+export type PickedReviewType = Pick<ReviewType, "id" | "review" | "rating">;
+
+
+export interface TicketWithReviewType extends TicketType {
+  review?: ReviewType;
 }
 
-export type RequiredTicketParamsType = Pick<TicketType, "movieName" | "userId" | "amount" | "price" | "seat" | "playDate">
+export type RequiredTicketParamsType = Pick<
+  TicketType,
+  "movieName" | "userId" | "amount" | "price" | "seat" | "playDate"
+>;
 
 export type InputReviewType = {
   userId: string;
@@ -61,4 +82,4 @@ export type InputReviewType = {
   movieName: string;
   review: string;
   rating: number;
-}
+};

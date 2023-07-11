@@ -20,3 +20,4 @@ IMPROVEMENT TEKNIS:
 
 KONTEN README:
 1. Tambahin catatan future improvement (pake orm kek drizzle or prisma, optimasi hal" list atas)
+2. Highlight: Realtime seat, review feature

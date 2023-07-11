@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { X } from "react-feather";
 import StarRating from "../StarRating";
@@ -7,6 +7,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useAddReview } from "@/hooks/query/review/useAddReview";
 import { useReviewModalStore } from "@/store";
 import { toast } from "react-toastify";
+import { useUpdateReview } from "@/hooks/query/review/useUpdateReview";
+import { useTicket } from "@/hooks/query/ticket/useTicket";
 
 type reviewInput = {
   review: string;
@@ -19,40 +21,70 @@ const ReviewModal = ({
   userId: string;
   username: string;
 }) => {
-  const { isOpen, movieName, toggle } = useReviewModalStore();
+  const { isOpen, movieName, toggle, review, setReview } =
+    useReviewModalStore();
   const [rating, setRating] = useState(5);
-  const { mutate, isLoading } = useAddReview({onSuccess: () => onSuccessReview()});
+  const { mutate: addReview, isLoading } = useAddReview({
+    onSuccess: () => onSuccessReview(),
+  });
+  const {mutate: updateReview, isLoading: isLoadingUpt} = useUpdateReview({ onSuccess: () => onSuccessReview() });
+  const {refetch} = useTicket({userId: userId})
 
   const {
     register,
     formState: { errors },
     handleSubmit,
     watch,
-    setValue
+    setValue,
   } = useForm<reviewInput>();
 
+  useEffect(() => {
+    if (review) {
+      setRating(review.rating);
+      setValue("review", review.review);
+    }
+  }, [review]);
+
   const onSuccessReview = () => {
-    toast.success("Review Success", {autoClose: 1500})
-    closeHandler()
-  }
+    toast.success("Review Success", { autoClose: 1500 });
+    refetch()
+    closeHandler();
+  };
 
   const submitHandler: SubmitHandler<reviewInput> = (input) => {
-    mutate({
-      review: {
-        review: input.review,
-        movieName: movieName,
-        rating: rating,
-        userId: userId,
-        username: username,
-      },
-    });
+    if (review && review.id !== -1) {
+      // Update
+      updateReview({
+        review: {
+          id: review.id,
+          rating: rating,
+          review: input.review
+        }
+      })
+    } else {
+      // Insert
+      addReview({
+        review: {
+          review: input.review,
+          movieName: movieName,
+          rating: rating,
+          userId: userId,
+          username: username,
+        },
+      });
+    }
   };
 
   const closeHandler = () => {
-    setValue("review", "")
-    setRating(5)
-    toggle()
-  }
+    setValue("review", "");
+    setReview({
+      id: -1,
+      review: "",
+      rating: 5,
+    });
+    setRating(5);
+    toggle();
+  };
 
   return (
     <Dialog open={isOpen} onClose={closeHandler} className="relative z-50">
@@ -65,7 +97,7 @@ const ReviewModal = ({
         <Dialog.Panel className="mx-auto w-full max-w-lg rounded bg-gray-900 p-4 shadow-xl">
           <div className="flex items-center justify-between border-b-[1.5px] border-b-gray-800 pb-2">
             <Dialog.Title className="flex items-center gap-3 font-semibold">
-              <p className="raleway text-lg">Review Your Movie</p>
+              <p className="raleway text-lg">Review Your Movie | {movieName}</p>
             </Dialog.Title>
             <button
               className="text-gray-600 hover:text-white"
@@ -99,11 +131,26 @@ const ReviewModal = ({
               </div>
             </div>
             <div className="flex items-center justify-end gap-2">
-              <button disabled={isLoading} onClick={closeHandler} type="button" className="text-sm btn-secondary">
+              <button
+                disabled={(isLoading || isLoadingUpt)}
+                onClick={closeHandler}
+                type="button"
+                className="text-sm btn-secondary"
+              >
                 Cancel
               </button>
-              <button disabled={isLoading} type="submit" className={`btn-primary text-sm ${isLoading ? "opacity-60" : ""}`}>
-                {isLoading ? "Loading..." : "Confirm Review"}
+              <button
+                disabled={(isLoading || isLoadingUpt)}
+                type="submit"
+                className={`btn-primary text-sm ${
+                  (isLoading || isLoadingUpt) ? "opacity-60" : ""
+                }`}
+              >
+                {(isLoading || isLoadingUpt)
+                  ? "Loading..."
+                  : review
+                  ? "Update Review"
+                  : "Confirm Review"}
               </button>
             </div>
           </form>
