@@ -2,8 +2,7 @@ import supabase from "@/lib/supabase/supabase";
 import { RequiredTicketParamsType } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 
-async function addTicket(ticket: RequiredTicketParamsType) {
-  // console.log(ticket)
+async function addReview(ticket: RequiredTicketParamsType) {
   const stringSeat = ticket.seat.map((s) => s.toString());
   const { data, error } = await supabase.from("ticket").insert({
     ...ticket,
@@ -16,7 +15,7 @@ async function addTicket(ticket: RequiredTicketParamsType) {
   return data;
 }
 
-export const useAddTicket = ({
+export const useAddReview = ({
   onSuccess,
   onError,
 }: {
@@ -25,7 +24,7 @@ export const useAddTicket = ({
 }) => {
   return useMutation({
     mutationFn: ({ ticket }: { ticket: RequiredTicketParamsType }) =>
-      addTicket(ticket),
+      addReview(ticket),
     onSuccess: (data) => {
       if (onSuccess) onSuccess();
     },

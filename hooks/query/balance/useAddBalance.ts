@@ -30,15 +30,21 @@ async function addBalance(amount: number, userId: string) {
   }
 }
 
-export const useAddBalance = ({onSuccess, onError} : {onSuccess? : any, onError? : any}) => {
+export const useAddBalance = ({
+  onSuccess,
+  onError,
+}: {
+  onSuccess?: () => void;
+  onError?: () => void;
+}) => {
   return useMutation({
     mutationFn: ({ amount, userId }: { amount: number; userId: string }) =>
       addBalance(amount, userId),
     onSuccess: (data) => {
-      onSuccess();
+      if (onSuccess) onSuccess();
     },
     onError: (err) => {
-      onError();
+      if (onError) onError();
     },
   });
 };

@@ -24,17 +24,17 @@ export const useSubtractbalance = ({
   onSuccess,
   onError,
 }: {
-  onSuccess?: any;
-  onError?: any;
+  onSuccess?: () => void;
+  onError?: () => void;
 }) => {
   return useMutation({
     mutationFn: ({ amount, userId }: { amount: number; userId: string }) =>
       subtractBalance(amount, userId),
     onSuccess: (data) => {
-      onSuccess();
+      if(onSuccess) onSuccess();
     },
     onError: (err) => {
-      onError();
+      if(onError) onError();
     },
   });
 };
