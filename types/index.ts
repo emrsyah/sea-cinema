@@ -54,3 +54,11 @@ export type TicketType = {
 }
 
 export type RequiredTicketParamsType = Pick<TicketType, "movieName" | "userId" | "amount" | "price" | "seat" | "playDate">
+
+export type InputReviewType = {
+  userId: string;
+  username: string;
+  movieName: string;
+  review: string;
+  rating: number;
+}

@@ -1,5 +1,5 @@
 "use client";
-import { useCancelModalStore } from "@/store";
+import { useCancelModalStore, useReviewModalStore } from "@/store";
 import { Menu } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -10,16 +10,19 @@ const TicketMoreMenu = ({
   seats,
   ticketId,
   total,
-  status
+  status,
+  movieName
 }: {
   isActive: boolean;
   seats: number[];
   ticketId: number;
   total: number;
-  status: "success" | "cancelled" | "failed"
+  status: "success" | "cancelled" | "failed",
+  movieName: string
 }) => {
   const router = useRouter();
   const { toggle, setTicket, setTotal } = useCancelModalStore();
+  const {toggle: toggleReview , setMovieName} = useReviewModalStore()
 
   const cancelHandler = () => {
     if (!isActive) {
@@ -29,6 +32,12 @@ const TicketMoreMenu = ({
     setTicket(ticketId);
     setTotal(total);
   };
+
+  const reviewHandler = () => {
+    if(isActive || status === "cancelled") return
+    toggleReview()
+    setMovieName(movieName)
+  }
 
   return (
     <>
@@ -45,7 +54,7 @@ const TicketMoreMenu = ({
                     active && "text-white"
                   }`}
                   //   href="/account-settings"
-                  // onClick={cancelHandler}
+                  onClick={reviewHandler}
                 >
                   <Star className="w-4" />
                   Review Movie

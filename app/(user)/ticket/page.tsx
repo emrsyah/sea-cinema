@@ -8,7 +8,7 @@ const TicketPage = async () => {
   const user = await currentUser();
   return (
     <>
-      <ReviewModal />
+      <ReviewModal userId={user ? user.id : ""} username={user ? user.username! : ""} />
       <div>
         <PlainNavbar title="My Ticket" />
         <div className="bg-gray-950 p-6 rounded w-full max-w-lg mx-auto my-8 flex flex-col gap-1">
