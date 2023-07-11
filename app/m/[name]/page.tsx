@@ -9,6 +9,7 @@ import Navbar from "@/components/layouts/Navbar";
 import { currentUser } from "@clerk/nextjs";
 import { extractMovieTitle } from "@/helpers/extractMovieTitle";
 import MovieCard from "@/components/MovieCard";
+import SynopsisReviewTabs from "@/components/headless-ui/SynopsisReviewTabs";
 
 async function getMovie(
   name: string
@@ -81,7 +82,7 @@ const MovieDetail = async ({ params }: { params: { name: string } }) => {
                   type="pr"
                 />
               </div>
-              <p className="text-gray-300 ">{requestedMovie.description}</p>
+              <SynopsisReviewTabs synopsis={requestedMovie.description} movieName={requestedMovie.title} />
             </div>
           </div>
           <div className="col-span-3">
@@ -95,7 +96,7 @@ const MovieDetail = async ({ params }: { params: { name: string } }) => {
             <h3 className="font-semibold text-2xl raleway">
               Check Another Movies
             </h3>
-            <div className="grid grid-cols-4 gap-4 my-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 my-3">
               {randomMovies.map((movie) => (
                 <MovieCard movie={movie} key={movie.title} />
               ))}
