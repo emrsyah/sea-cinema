@@ -45,7 +45,7 @@ const Login = () => {
           autoClose: 1500,
         });
         /*Investigate why the login hasn't completed */
-        console.log(result);
+        // console.log(result);
       }
     } catch (err: any) {
       console.error("error", err.errors[0].longMessage);
