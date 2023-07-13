@@ -7,7 +7,7 @@ async function addBalance(amount: number, userId: string) {
     .select("*")
     .eq("userId", userId)
     .single();
-  if (balance.id) {
+  if (balance) {
     const { data, error } = await supabase
       .from("balance")
       .update({

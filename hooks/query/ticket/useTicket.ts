@@ -11,7 +11,7 @@ const getTicket = async (userId: string) => {
   if (errorReview) {
     throw new Error(errorReview.message);
   }
-  console.log(review)
+  // console.log(review)
   const ticketWithReview = ticket.map((ticket) => {
     if(review === null || review.length === 0){
       return {

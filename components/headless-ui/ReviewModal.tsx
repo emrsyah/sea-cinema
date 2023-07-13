@@ -148,7 +148,7 @@ const ReviewModal = ({
               >
                 {(isLoading || isLoadingUpt)
                   ? "Loading..."
-                  : review
+                  : review?.id !== -1
                   ? "Update Review"
                   : "Confirm Review"}
               </button>

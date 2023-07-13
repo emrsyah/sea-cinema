@@ -6,7 +6,8 @@ const getReview = async (movieName: string) => {
     .from("review")
     .select("*")
     .eq("movieName", movieName)
-    .order("createdAt", { ascending: false });
+    .order("createdAt", { ascending: false })
+    .limit(3);
   if (error) {
     throw new Error(error.message);
   }

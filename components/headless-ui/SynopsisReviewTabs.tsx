@@ -13,7 +13,7 @@ const SynopsisReviewTabs = ({
   movieName: string;
 }) => {
   const { data } = useReview({ movieName: movieName });
-  console.log(data);
+  // console.log(data);
   return (
     <Tab.Group>
       <Tab.List className={"w-full grid grid-cols-2 mb-2"}>
@@ -57,7 +57,10 @@ const SynopsisReviewTabs = ({
               Overall Rating:{" "}
               {data?.avgRating ? (
                 <div className="text-indigo-500 flex items-end gap-1">
-                  {data.avgRating}/5{" "}
+                  {data.avgRating.toString().length > 3
+                    ? data.avgRating.toFixed(1)
+                    : data.avgRating}
+                  /5{" "}
                   <p className="text-sm font-medium text-gray-600">
                     ({data.review?.length})
                   </p>
@@ -66,28 +69,40 @@ const SynopsisReviewTabs = ({
                 "No rating yet"
               )}
             </div>
-            <div className="mt-2">
-              {data?.review
-                ? data.review.map((rev) => (
+            {/* Batasin jadi 3 review, sisanya pindahin ke page khusus */}
+            {data?.review?.length ? (
+              <div>
+                <h3 className="font-semibold  text-gray-600">Last 3 Reviews</h3>
+                <div className="mt-2 flex flex-col gap-2 max-h-56">
+                  {data.review.map((rev) => (
                     <div key={rev.id} className="flex gap-4">
                       <img
                         src={`https://api.dicebear.com/6.x/notionists-neutral/svg?seed=${rev.username}`}
                         height={20}
                         width={20}
                         alt="profile"
-                        className="rounded-full w-10 h-10 border-[2px] border-indigo-400 p-[2px]"
+                        className="rounded-full w-9 h-9 border-[2px] border-indigo-400 p-[2px]"
                       />
                       <div className="flex flex-col border-b-[1.5px] pb-2 w-full border-b-gray-800">
                         <div className="flex items-center justify-between">
-                        <h3 className="font-semibold text-lg">{rev.username} <span className="text-indigo-500 font-medium text-sm"><span className="text-gray-400">|</span> Rated: {rev.rating}/5</span> </h3>
-                        <p className="font-medium text-sm text-gray-300">{dayjs(rev.createdAt).format("MMMM D, YYYY")}</p>
+                          <h3 className="font-semibold text-lg">
+                            {rev.username}{" "}
+                            <span className="text-indigo-500 font-medium text-sm">
+                              <span className="text-gray-400">|</span> Rated:{" "}
+                              {rev.rating}/5
+                            </span>{" "}
+                          </h3>
+                          <p className="font-medium text-sm text-gray-300">
+                            {dayjs(rev.createdAt).format("MMMM D, YYYY")}
+                          </p>
                         </div>
                         <p className="text-gray-400">{rev.review}</p>
                       </div>
                     </div>
-                  ))
-                : "no review"}
-            </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
           </div>
         </Tab.Panel>
       </Tab.Panels>
