@@ -1,8 +1,15 @@
 import Balance from "@/components/Balance";
 import { TopUpWithdrawTabs } from "@/components/headless-ui/TopUpWithdrawTabs";
 import PlainNavbar from "@/components/layouts/PlainNavbar";
-import { currentUser, useUser } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs";
 import React from "react";
+
+
+export const metadata = {
+  title: "Your Balance | Sea Cinema",
+  description: "A website for booking your cinema tickets easily and conveniently.",
+  keywords: ["cinema", "tickets", "booking", "balance"],
+};
 
 const BalancePage = async () => {
   const user = await currentUser();

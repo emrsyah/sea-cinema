@@ -7,6 +7,13 @@ import { useSignUp } from "@clerk/nextjs";
 import InputErrorIndicator from "@/components/InputErrorIndicator";
 import { toast } from "react-toastify";
 
+export const metadata = {
+  title: "Sign Up | Sea Cinema",
+  description: "A website for booking your cinema tickets easily and conveniently.",
+  keywords: ["cinema", "tickets", "booking", "authentication", "login", "signup"],
+};
+
+
 const SignUp = () => {
   const router = useRouter();
   const { isLoaded, signUp, setActive } = useSignUp();

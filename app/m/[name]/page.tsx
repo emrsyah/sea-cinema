@@ -11,6 +11,13 @@ import { extractMovieTitle } from "@/helpers/extractMovieTitle";
 import MovieCard from "@/components/MovieCard";
 import SynopsisReviewTabs from "@/components/headless-ui/SynopsisReviewTabs";
 
+export const metadata = {
+  title: "Movies Detail | Sea Cinema",
+  description: "A website for booking your cinema tickets easily and conveniently.",
+  keywords: ["cinema", "tickets", "booking"],
+};
+
+
 async function getMovie(
   name: string
 ): Promise<{ requestedMovie: MovieItem; randomMovies: MovieItem[] }> {

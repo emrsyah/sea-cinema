@@ -10,6 +10,13 @@ import PlainNavbar from "@/components/layouts/PlainNavbar";
 import BalancePayment from "@/components/BalancePayment";
 import { extractMovieTitle } from "@/helpers/extractMovieTitle";
 
+
+export const metadata = {
+  title: "Summary and Payment | Sea Cinema",
+  description: "A website for booking your cinema tickets easily and conveniently.",
+  keywords: ["cinema", "tickets", "booking"],
+};
+
 async function getMovie(name: string): Promise<MovieItem> {
   const res = await fetch("https://seleksi-sea-2023.vercel.app/api/movies", {
     next: { revalidate: 0 },

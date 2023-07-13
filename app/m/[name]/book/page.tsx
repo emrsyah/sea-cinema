@@ -4,6 +4,13 @@ import { extractMovieTitle } from "@/helpers/extractMovieTitle";
 import { MovieItem } from "@/types";
 import React from "react";
 
+export const metadata = {
+  title: "Select Your Seat | Sea Cinema",
+  description: "A website for booking your cinema tickets easily and conveniently.",
+  keywords: ["cinema", "tickets", "booking", "seats"],
+};
+
+
 async function getMovie(name: string): Promise<MovieItem> {
   const res = await fetch("https://seleksi-sea-2023.vercel.app/api/movies", {
     next: { revalidate: 0 },

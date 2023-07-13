@@ -15,6 +15,12 @@ const gotgData = {
   ticket_price: 41000,
 };
 
+export const metadata = {
+  title: "Sea Cinema | The Easy way to book your Next Cinema",
+  description: "A website for booking your cinema tickets easily and conveniently.",
+  keywords: ["cinema", "tickets", "booking"],
+};
+
 async function getMovies(): Promise<MovieItem[]> {
   const res = await fetch("https://seleksi-sea-2023.vercel.app/api/movies", {
     next: { revalidate: 3600 },
@@ -30,25 +36,30 @@ export default async function Home() {
   const movies = await getMovies();
   const user = await currentUser();
   return (
-    <main>
-      <Navbar userId={user ? user.id : ""} username={user ? user.username! : ""} age={user ? user.unsafeMetadata.age as number : 0} />
-      <div className="max-w-7xl m-6 gap-4 grid grid-cols-6 items-center ">
-        <div className=" col-span-6 md:col-span-4 flex flex-col gap-2">
-          {/* <h1 className='text-4xl font-bold raleway'>Movies at Your Fingertips.</h1> */}
-          <h1 className="text-4xl md:text-6xl font-bold raleway uppercase tracking-widest ">
-            Your Movie <span className="text-indigo-500">Magic</span> Experience
-            Begins with <span className="text-indigo-500">Easy</span> Booking.
-          </h1>
-          <h3 className="raleway font-medium">
-            Unleash the Cinematic Experience: Easy Booking, Memorable Movies!
-          </h3>
-          <a href="#movieGrid" className="btn-primary w-fit mt-4 text-lg">
-            Explore Your Next Movie
-          </a>
-        </div>
-        <div className="hidden md:flex col-span-2 items-center justify-center">
-          <MovieCard movie={gotgData} />
-          {/* <Link
+      <main>
+        <Navbar
+          userId={user ? user.id : ""}
+          username={user ? user.username! : ""}
+          age={user ? (user.unsafeMetadata.age as number) : 0}
+        />
+        <div className="max-w-7xl m-6 gap-4 grid grid-cols-6 items-center ">
+          <div className=" col-span-6 md:col-span-4 flex flex-col gap-2">
+            {/* <h1 className='text-4xl font-bold raleway'>Movies at Your Fingertips.</h1> */}
+            <h1 className="text-4xl md:text-6xl font-bold raleway uppercase tracking-widest ">
+              Your Movie <span className="text-indigo-500">Magic</span>{" "}
+              Experience Begins with{" "}
+              <span className="text-indigo-500">Easy</span> Booking.
+            </h1>
+            <h3 className="raleway font-medium">
+              Unleash the Cinematic Experience: Easy Booking, Memorable Movies!
+            </h3>
+            <a href="#movieGrid" className="btn-primary w-fit mt-4 text-lg">
+              Explore Your Next Movie
+            </a>
+          </div>
+          <div className="hidden md:flex col-span-2 items-center justify-center">
+            <MovieCard movie={gotgData} />
+            {/* <Link
             href={"/"}
             className="rounded-lg shadow-lg  hover:scale-[102%] transition-all duration-200 ease-out cursor-pointer"
           >
@@ -78,11 +89,14 @@ export default async function Home() {
               </div>
             </div>
           </Link> */}
+          </div>
         </div>
-      </div>
-      <div id="movieGrid" className="max-w-7xl movieGrid mx-6 flex flex-col mt-20 mb-6">
-        <MovieGrid movies={movies} />
-      </div>
-    </main>
+        <div
+          id="movieGrid"
+          className="max-w-7xl movieGrid mx-6 flex flex-col mt-20 mb-6"
+        >
+          <MovieGrid movies={movies} />
+        </div>
+      </main>
   );
 }

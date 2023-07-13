@@ -4,6 +4,13 @@ import PlainNavbar from "@/components/layouts/PlainNavbar";
 import { currentUser } from "@clerk/nextjs";
 import React from "react";
 
+export const metadata = {
+  title: "Your Ticket | Sea Cinema",
+  description: "A website for booking your cinema tickets easily and conveniently.",
+  keywords: ["cinema", "tickets", "booking"],
+};
+
+
 const TicketPage = async () => {
   const user = await currentUser();
   return (
