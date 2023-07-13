@@ -67,6 +67,7 @@ Link:
 ## Future Improvements
 
 - Penggunaan ORM seperti drizzle untuk akses database
+- Skema validation dengan Zod
 - Menambahkan e2e testing
 - Improve SEO dan aksesibilitas
 - Penambahan fitur lainnya seperti Wishlist
