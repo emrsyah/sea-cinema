@@ -7,12 +7,6 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
 
-export const metadata = {
-  title: "Log In | Sea Cinema",
-  description: "A website for booking your cinema tickets easily and conveniently.",
-  keywords: ["cinema", "tickets", "booking", "authentication", "login", "signup"],
-};
-
 const Login = () => {
   const router = useRouter();
   const { isLoaded, signIn, setActive } = useSignIn();
