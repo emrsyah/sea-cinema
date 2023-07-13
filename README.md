@@ -37,7 +37,7 @@ Aplikasi ini sendiri dibangun menggunakan teknologi Next 13 dan Typescript denga
 Clone the project
 
 ```bash
-  git clone https://github.com/emrsyah/sea-cinema
+  git clone https://github.com/emrsyah/sea-cinema my-project
 ```
 
 Go to the project directory
