@@ -32,7 +32,7 @@ export type FormSignUpType = {
 
 export type SeatType = {
   id: number;
-  status: "available" | "taken" | "selected";
+  status: string;
 };
 
 export type TicketCheckoutType = {

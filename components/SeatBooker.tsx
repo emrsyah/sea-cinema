@@ -67,7 +67,10 @@ const SeatBooker = ({ movie }: { movie: MovieItem }) => {
           filter: `movieName=eq.${movie.title}`,
         },
         (payload) => {
-          if (dayjs(payload.new.playDate).format("YYYY-MM-DD") === date) {
+          const newPayload = payload.new as {
+            playDate: string
+          }
+          if (dayjs(newPayload.playDate).format("YYYY-MM-DD") === date) {
             toast.info(CustomToast);
             console.log("Change received!", payload);
           }
