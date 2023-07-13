@@ -1,7 +1,7 @@
 "use client";
 import InputErrorIndicator from "@/components/InputErrorIndicator";
 import { FormLoginType } from "@/types";
-import { useAuth, useSignIn, useUser } from "@clerk/nextjs";
+import {  useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 const Login = () => {
   const router = useRouter();
   const { isLoaded, signIn, setActive } = useSignIn();
-  const { isSignedIn, user, isLoaded: isLoadedUser } = useUser();
 
   const {
     register,

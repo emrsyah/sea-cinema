@@ -10,7 +10,6 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import supabase from "@/lib/supabase/supabase";
 import dayjs from "dayjs";
 import { useSeat } from "@/hooks/query/useSeat";
-import { generateSeatData } from "@/helpers/generateSeatData";
 
 const SeatBooker = ({ movie }: { movie: MovieItem }) => {
   const searchParams = useSearchParams();

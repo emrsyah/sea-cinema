@@ -1,6 +1,5 @@
 "use client";
 import Seat from "@/components/Seat";
-import SeatMap from "@/components/SeatMap";
 import PlainNavbar from "@/components/layouts/PlainNavbar";
 import { generateSeatPreviewData } from "@/helpers/generateSeatPreviewData";
 import { useSearchParams } from "next/navigation";

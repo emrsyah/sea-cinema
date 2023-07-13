@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { toast } from "react-toastify";
 import Seat from "./Seat";
 import { generateSeatData } from "@/helpers/generateSeatData";
