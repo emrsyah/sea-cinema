@@ -37,7 +37,7 @@ Aplikasi ini sendiri dibangun menggunakan teknologi Next 13 dan Typescript denga
 Clone the project
 
 ```bash
-  git clone https://github.com/emrsyah/sea-cinema
+  git clone https://github.com/emrsyah/sea-cinema my-project
 ```
 
 Go to the project directory
@@ -55,7 +55,7 @@ Install dependencies
 Start the server
 
 ```bash
-  npm run start
+  npm run dev
 ```
 
 
@@ -67,6 +67,7 @@ Link:
 ## Future Improvements
 
 - Penggunaan ORM seperti drizzle untuk akses database
+- Skema validation dengan Zod
 - Menambahkan e2e testing
 - Improve SEO dan aksesibilitas
 - Penambahan fitur lainnya seperti Wishlist
