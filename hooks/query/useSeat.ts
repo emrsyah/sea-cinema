@@ -1,5 +1,4 @@
 import supabase from "@/lib/supabase/supabase";
-import { TicketType } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 
 const getSeat = async (movieName: string, playDate: string) => {
